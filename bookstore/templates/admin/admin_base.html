@@ -32,11 +32,11 @@
                     {% endif %}
 
                     {% if can_view_stockin %}
-                    <li><a href="#">Quản lý Phiếu Nhập</a></li>
+                    <li><a href="{% url 'stock_in'%}">Quản lý Phiếu Nhập</a></li>
                     {% endif %}
 
                     {% if can_view_stockout %}
-                    <li><a href="#">Quản lý Phiếu Xuất</a></li>
+                    <li><a href="{% url 'stock_out'%}">Quản lý Phiếu Xuất</a></li>
                     {% endif %}
 
                     {% if can_view_report %}
@@ -44,8 +44,9 @@
                     {% endif %}
 
                     {% if can_view_users %}
-                    <li><a href="#">Quản lý Người Dùng</a></li>
+                    <li><a href="{% url 'user_list'%}">Quản lý Người Dùng</a></li>
                     {% endif %}
+
 
                 </ul>
             </div>
