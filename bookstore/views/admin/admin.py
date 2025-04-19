@@ -40,4 +40,18 @@ def admin_login(request):
 
     return render(request, 'admin/login.html')
 
+@login_required
+def admin_dashboard(request):
+    user = request.user
+    content = {
+        "can_view_users": user.has_perm('auth.view_user'),
+        "can_add_user": user.has_perm('bookstore.add_user'),
+        "can_change_user": user.has_perm('bookstore.change_user'),
+        "can_delete_user": user.has_perm('bookstore.delete_user'),
+        "can_view_books": user.has_perm('bookstore.view_book'),
+        "can_add_book": user.has_perm('bookstore.add_book'),
+        "can_change_book": user.has_perm('bookstore.change_book'),
+        "can_delete_book": user.has_perm('bookstore.delete_book'),
 
+    }
+    return render(request, 'admin/admin_base.html', content)
