@@ -5,7 +5,8 @@ from bookstore.views.manager import report_views
 from .views.customer import home
 from .views.customer import profile
 from .views.admin import admin
-
+from .views.staff import order_status
+from .views.admin import book_admin
 urlpatterns = [
     path('', home.home, name='home'),
     path('books/', home.books, name='books'),
@@ -15,6 +16,8 @@ urlpatterns = [
     path('admin/', admin.admin_login, name = 'admin_login'),
     path('admin/login/', admin.admin_login_view, name = 'admin_login_view'),
     path('admin/logout/', admin.admin_logout, name = 'admin_logout'),
+    path('admin/listbook', book_admin.admin_list_books, name = 'list_book'),
+    path('admin/orderbook',order_status. admin_list_orders, name = 'order_book'),
 
     path('api/create_order/', profile.create_order, name = 'create-order'),
     path('api/view_order/', profile.view_order, name= 'view-order'),

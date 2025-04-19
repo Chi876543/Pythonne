@@ -1,3 +1,38 @@
-<h1>Trang Admin</h1>
+{% comment %} <h1>Trang Admin</h1>
 <p>Chào {{ user.username }}</p>
-<a href="{% url 'admin_logout' %}">Đăng xuất</a>
+<a href="{% url 'admin_logout' %}">Đăng xuất</a> {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin Base</title>
+        <link rel="stylesheet" href="{% static 'admin/css/style.css' %}">
+    </head>
+    <body>
+        <header>
+            <div class="header">
+                <h1>Quản Trị Website</h1>
+                <div class="header-right">
+                    <p>Chào {{ user.username }}</p>
+                    <a href="{% url 'admin_logout' %}">Đăng xuất</a>
+                </div>
+            </div>
+        </header>
+            <div class = "sidebar">
+                <ul>
+                    <li><a href="{% url 'list_book' %}">Quản lý Sách</a></li>
+                    <li><a href="{% url 'order_book'%}">Quản lý Hóa Đơn</a></li>
+                    <li><a href="#">Quản lý Phiếu Nhập</a></li>
+                    <li><a href="#">Quản lý Phiếu Xuất</a></li>
+                    <li><a href="#">Quản lý Người Dùng</a></li>
+                    <li><a href="#">Đăng Xuất</a></li>
+                </ul>
+            </div>
+            <div class="main-content">
+                {% block content %}
+                {% endblock %}
+            </div>    
+    </body>       
+</html>   

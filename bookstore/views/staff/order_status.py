@@ -1,13 +1,18 @@
 # admin.py
-from django.contrib import admin
-from ...models import Order, OrderDetail
+from django.shortcuts import render, redirect
+def is_admin(user):
+    return user.is_authenticated and user.is_staff
 
-class OrderDetailInline(admin.TabularInline):  # hoặc StackedInline
-    model = OrderDetail
-    extra = 0  # Không hiển thị dòng trống thừa
-    readonly_fields = ('book', 'quantity', 'price')  # nếu bạn muốn chỉ xem, không sửa
+def admin_list_orders(request):
+    # Chỉ admin mới có quyền truy cập
+    if not is_admin(request.user):
+        return redirect('admin_login')
 
-class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'status', 'total_amount', 'created_at')
-    inlines = [OrderDetailInline]
+    # Xử lý logic để lấy danh sách đơn hàng từ cơ sở dữ liệu
+    # orders = Order.objects.all()  # Giả sử bạn có một mô hình Order
+
+    return render(request, 'staff/order/order_list.html', {
+        'user': request.user,
+        # 'orders': orders,  # Truyền danh sách đơn hàng vào template
+    })
 
