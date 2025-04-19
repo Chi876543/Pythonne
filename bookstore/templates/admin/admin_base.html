@@ -1,4 +1,3 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -20,11 +19,34 @@
         </header>
             <div class = "sidebar">
                 <ul>
+                    {% if can_view_books %}
                     <li><a href="{% url 'list_book' %}">Quản lý Sách</a></li>
+                    {% endif %}
+
+                    {% if can_view_orders %}
                     <li><a href="{% url 'order_book'%}">Quản lý Hóa Đơn</a></li>
+                    {% endif %}
+
+                    {% if can_view_categories %}
+                    <li><a href="#">Quản lý Danh Mục</a></li>
+                    {% endif %}
+
+                    {% if can_view_stockin %}
                     <li><a href="#">Quản lý Phiếu Nhập</a></li>
+                    {% endif %}
+
+                    {% if can_view_stockout %}
                     <li><a href="#">Quản lý Phiếu Xuất</a></li>
+                    {% endif %}
+
+                    {% if can_view_report %}
+                    <li><a href="#">Quản lý Báo Cáo</a></li>
+                    {% endif %}
+
+                    {% if can_view_users %}
                     <li><a href="#">Quản lý Người Dùng</a></li>
+                    {% endif %}
+
                 </ul>
             </div>
             <div class="main-content">

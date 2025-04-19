@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout, authenticate, login
+from bookstore.views.admin import admin
 
 def is_admin(user):
     return user.is_authenticated and user.is_staff
