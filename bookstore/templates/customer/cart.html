@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giỏ Hàng</title>
+  <link rel="stylesheet" href="/static/css/customer/cart.css">
+</head>
+<body>
+  
+  <header class="header">
+    <div class="header-left">
+        <img src="/static/img/logo.svg" alt="" class="logo" style="cursor: pointer;"  onclick="window.location.href='/';">
+    </div>
+    
+    <div class="header-right">
+        <a href="#" class="icon">Giỏ hàng</a>
+        <a href="/profile" class="icon" >Tài khoản</a>
+        <a id="logOut" class="icon" onclick="onLogout()" style="cursor: pointer;">Đăng xuất</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Cart Table -->
+    <table>
+        <thead>
+            <tr>
+                <th class="checkbox"><input type="checkbox" id="select-all"></th>
+                <th class="product">Sản phẩm</th>
+                <th class="price">Đơn giá</th>
+                <th class="quantity">Số lượng</th>
+                <th class="total">Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody id="cart-items"></tbody>
+    </table>
+
+    <!-- Cart Footer -->
+    <div class="cart-footer">
+        <div class="total">
+            Tổng thanh toán: <span id="total-amount">0₫</span>
+        </div>
+        <button onclick="openCheckoutModal()">Thanh toán</button>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content">
+            <h2>Thông tin giao hàng</h2>
+            <label for="name">Tên người nhận:</label>
+            <input type="text" id="name" value="">
+            <label for="address">Địa chỉ giao hàng:</label>
+            <input type="text" id="address" value="">
+            <label for="phone">Số điện thoại:</label>
+            <input type="text" id="phone">
+            <label for="note">Ghi chú:</label>
+            <textarea id="note" rows="4"></textarea>
+            <div style="text-align: right;">
+                <button class="confirm-btn" onclick="showOrderSummary()">Xác nhận</button>
+                <button class="cancel-btn" onclick="closeModal()">Hủy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Summary Modal -->
+    <div id="summary-modal" class="modal">
+        <div class="modal-content">
+            <h2>Tóm tắt hóa đơn</h2>
+            <div id="summary-items"></div>
+            <p><strong>Tổng tiền:</strong> <span id="summary-total"></span></p>
+            <p><strong>Địa chỉ giao hàng:</strong> <span id="summary-address"></span></p>
+            <p><strong>Họ và tên:</strong> <span id="summary-name"></span></p>
+            <p><strong>Số điện thoại:</strong> <span id="summary-phone"></span></p>
+            <p><strong>Ghi chú:</strong> <span id="summary-note"></span></p>
+            <div style="text-align: right;">
+                <button class="order-btn" onclick="placeOrder()">Đặt hàng</button>
+                <button class="cancel-btn" onclick="closeModal()">Hủy</button>
+            </div>
+        </div>
+    </div>
+
+<footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Giới thiệu</h4>
+        <ul>
+          <li><a href="/">Về chúng tôi</a></li>
+          <li><a href="/">Điều khoản dịch vụ</a></li>
+          <li><a href="/">Chính sách bảo mật</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Hỗ trợ</h4>
+        <ul>
+          <li><a href="/">Câu hỏi thường gặp</a></li>
+          <li><a href="">Hỗ trợ khách hàng</a></li>
+          <li><a href="/">Trung tâm trợ giúp</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Liên hệ</h4>
+        <p>Email: support@gmail.com.com</p>
+        <p>Hotline: 1900-123-456</p>
+        <p>Địa chỉ: 154 Đường Âu Dương Lân,Quận 8, TP. HCM</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025. Tất cả quyền được bảo lưu.</p>
+    </div>
+</footer>
+  
+<script src="/static/js/customer/cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+/* static/css/customer/home.css */
+.book-item {
+    margin-bottom: 20px;
+}
+
+.book-item img {
+    max-width: 100%;
+    height: auto;
+}
+
+#book-list {
+    margin-top: 20px;
+}
+
+#pagination {
+    margin-top: 20px;
+}

@@ -1,0 +1,33 @@
+<!-- templates/customer/home.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Trang chủ - Cửa hàng sách{% endblock %}
+
+{% block content %}
+    <h1>Chào mừng đến với Cửa hàng sách</h1>
+
+    <!-- Form tìm kiếm -->
+    <div class="mb-4">
+        <div class="input-group">
+            <input type="text" id="search-input" class="form-control" placeholder="Tìm kiếm sách...">
+            <button id="search-button" class="btn btn-primary">Tìm kiếm</button>
+        </div>
+    </div>
+
+    <!-- Danh sách sách -->
+    <div id="book-list" class="row">
+        <!-- Danh sách sách sẽ được render động bằng JavaScript -->
+    </div>
+
+    <!-- Phân trang -->
+    <nav aria-label="Page navigation">
+        <ul id="pagination" class="pagination justify-content-center">
+            <!-- Phân trang sẽ được render động bằng JavaScript -->
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/customer/home.js' %}"></script>
+{% endblock %}

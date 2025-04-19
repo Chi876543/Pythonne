@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thông tin Người dùng</title>
+  <link rel="stylesheet" href="/static/css/customer/profile.css">
+  
+</head>
+<body>
+  <header class="header">
+    <div class="header-left">
+        <img src="/static/img/logo.svg" alt="" class="logo" style="cursor: pointer;"  onclick="window.location.href='/';">
+    </div>
+    
+    <div class="header-right">
+        <a href="/cart" class="icon">Giỏ hàng</a>
+        <a href="#" class="icon" >Tài khoản</a>
+        <a id="logOut" class="icon" onclick="onLogout()" style="cursor: pointer;">Đăng xuất</a>
+    </div>
+  </header>
+
+  <div class="wrapper">
+    <div class="nav-bar">
+      <div class="logo-user">
+        <img id="user-avatar" src="/static/img/account.svg" alt="logo">
+        <p>Xin chào!<p id="username"></p></p>
+      </div>
+      <div class="menu" id="menu">
+        <div class="menu-li" id="profile-tab">
+          <img src="/static/img/account.svg" alt="icon-user">
+          Tài khoản của tôi
+        </div>
+        <div class="menu-li" id="order-history-tab">
+          <img src="/static/img/danhmuc.jpg" alt="icon-cart">
+          Đơn mua
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="content">
+        <!-- Hồ sơ cá nhân -->
+        <div id="profile-content">
+          <div class="title">
+            <h3>Hồ sơ của tôi</h3>
+            <p>Quản lí hồ sơ để bảo mật tài khoản</p>
+          </div>
+          <div class="user-info">
+            <p><strong>Họ và tên:</strong> <span id="user-fullname"></span></p>
+            <p><strong>Số điện thoại:</strong> <span id="user-sdt"></span></p>
+            <p><strong>Địa chỉ:</strong> <span id="user-address"></span></p>
+            <p><strong>Trạng thái:</strong> <span id="user-status"></span></p>
+            <button id="edit-profile-btn">Sửa thông tin</button>
+          </div>
+        </div>
+
+        <!-- Đơn mua -->
+        <div id="orders-content" class="hidden">
+          <div class="title">
+            <h3>Đơn mua của bạn</h3>
+            <p>Xem lại các đơn hàng đã đặt.</p>
+          </div>
+          <div class="search-oder">
+            <div>
+              <label for="search-start-date">Từ ngày:</label>
+              <input type="date" id="search-start-date" placeholder="Từ ngày">
+            </div>
+
+            <div>
+              <label for="search-end-date">Đến ngày:</label>
+              <input type="date" id="search-end-date" placeholder="Đến ngày">
+            </div>
+
+            <div>
+              <label for="search-total">Tổng tiền:</label>
+              <input type="number" id="search-total" placeholder="Nhập tổng tiền...">
+            </div>
+
+            <div>
+              <label for="search-address">Địa chỉ:</label>
+              <input type="text" id="search-address" placeholder="Nhập địa chỉ gần đúng">
+            </div>
+
+            <div>
+              <label for="search-status">Trạng thái:</label>
+              <select id="search-status">
+                <option value="">--Tất cả--</option>
+                <option value="Pending">Chưa thanh toán</option>
+                <option value="Confirmed">Đã xác nhận</option>
+                <option value="Completed">Đã thanh toán</option>
+                <option value="Cancelled">Đã hủy</option>
+              </select>
+            </div>
+            
+            <button id="search-btn" >Tìm kiếm</button>
+            <button id="reset-btn" onclick=reset()>Clear</button>
+          </div>
+          
+          <ul id="order-list">
+            <table id="invoice-table">
+              <thead>
+                <th>ID Hóa Đơn</th>
+                <th>Tên Khách Hàng</th>
+                <th>Ngày đặt</th>
+                <th>Tổng tiền</th>
+                <th>Địa chỉ</th>
+                <th>Trạng thái</th>
+                <th>Chi tiết hóa đơn</th>
+                <tbody id="body-oder">
+                  <!--Các hóa đơn sẽ hiện ở đây-->
+                </tbody>
+              </thead>
+            </table>
+          </ul>
+          <!-- Popup Hiển Thị Chi Tiết Hóa Đơn -->
+          <div id="popup-oder" class="popup" style="display: none;">
+            <div class="popup-content">
+              <h3>Chi tiết hóa đơn</h3>
+              <table id="detail-oder">
+                <thead>
+                  <tr>
+                    <th>Tên Sản Phẩm</th>
+                    <th>Số Lượng</th>
+                    <th>Đơn Giá</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Các dòng chi tiết hóa đơn sẽ được thêm vào đây -->
+                </tbody>
+              </table>
+              <button id="close-popup">Đóng</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Giới thiệu</h4>
+        <ul>
+          <li><a href="/">Về chúng tôi</a></li>
+          <li><a href="/">Điều khoản dịch vụ</a></li>
+          <li><a href="/">Chính sách bảo mật</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Hỗ trợ</h4>
+        <ul>
+          <li><a href="/">Câu hỏi thường gặp</a></li>
+          <li><a href="">Hỗ trợ khách hàng</a></li>
+          <li><a href="/">Trung tâm trợ giúp</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Liên hệ</h4>
+        <p>Email: support@gmail.com.com</p>
+        <p>Hotline: 1900-123-456</p>
+        <p>Địa chỉ: 154 Đường Âu Dương Lân,Quận 8, TP. HCM</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025. Tất cả quyền được bảo lưu.</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/customer/profile.js" ></script>
+</body>
+</html>

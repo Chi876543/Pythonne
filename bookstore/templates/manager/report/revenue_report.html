@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Báo cáo doanh thu</h2>
+<img src="{% url 'chart_revenue_day' %}" alt="Doanh thu ngày">
+<img src="{% url 'chart_revenue_month' %}" alt="Doanh thu tháng">
+<img src="{% url 'chart_revenue_year' %}" alt="Doanh thu năm">
+<img src="{% url 'chart_top_revenue' %}" alt="Top sản phẩm doanh thu">
+{% endblock %}
