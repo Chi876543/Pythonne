@@ -4,12 +4,17 @@ from django.urls import path
 from bookstore.views.manager import report_views
 from .views.customer import home
 from .views.customer import profile
+from .views.admin import admin
 
 urlpatterns = [
     path('', home.home, name='home'),
     path('books/', home.books, name='books'),
     path('profile/', profile.profile, name = 'profile'),
     path('cart/', profile.cart, name = 'cart'),
+
+    path('admin/', admin.admin_login, name = 'admin_login'),
+    path('admin/login/', admin.admin_login_view, name = 'admin_login_view'),
+    path('admin/logout/', admin.admin_logout, name = 'admin_logout'),
 
     path('api/create_order/', profile.create_order, name = 'create-order'),
     path('api/view_order/', profile.view_order, name= 'view-order'),
