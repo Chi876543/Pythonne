@@ -1,15 +1,18 @@
 from django.shortcuts import render, redirect
-def is_admin(user):
-    return user.is_authenticated and user.is_staff
+from ...models import User
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+def can_view_user(user):
+    return user.has_perm('bookstore.can_view_user')
+
+@login_required
+@user_passes_test(can_view_user)
 def admin_list_users(request):
-    # Chỉ admin mới có quyền truy cập
-    if not is_admin(request.user):
-        return redirect('admin_login')
+   
+    users = User.objects.all()
 
-    # Xử lý logic để lấy danh sách người dùng từ cơ sở dữ liệu
-    # users = User.objects.all()  # Giả sử bạn có một mô hình User
+    context = {
+        'users': users,
+    }
 
-    return render(request, 'admin/user/user_list.html', {
-        'user': request.user,
-        # 'users': users,  # Truyền danh sách người dùng vào template
-    })
+    return render(request, 'admin/user/user_list.html', context)

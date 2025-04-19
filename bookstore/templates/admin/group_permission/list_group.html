@@ -1,0 +1,35 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content">
+    <h2>Danh Sách Nhóm</h2>
+    {% comment %} <form method="POST" action="{% url 'some_action' %}">  <!-- Thay 'some_action' bằng URL bạn muốn xử lý -->
+        {% csrf_token %} {% endcomment %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Chọn</th>
+                    <th>Tên Nhóm</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for group in groups %}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="selected_groups" value="{{ group.id }}">
+                    </td>
+                    <td>{{ group.name }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">Chưa có nhóm nào.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% comment %} <button type="submit">Thực Hiện Hành Động</button>  <!-- Nút để thực hiện hành động với các nhóm đã chọn --> {% endcomment %}
+    {% comment %} </form> {% endcomment %}
+    {% comment %} <a href="{% url 'create_group' %}">Tạo Nhóm Mới</a> {% endcomment %}
+</div>
+{% endblock %}

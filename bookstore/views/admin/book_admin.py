@@ -1,19 +1,24 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout, authenticate, login
-from bookstore.views.admin import admin
+from ...models import Book, Category
+from django.contrib.auth.decorators import login_required, user_passes_test
 
-def is_admin(user):
-    return user.is_authenticated and user.is_staff
+def can_view_group(user):
+    return user.has_perm('bookstore.can_view_group')
 
+@login_required
+@user_passes_test(can_view_group)
 def admin_list_books(request):
-    # Chỉ admin mới có quyền truy cập
-    if not is_admin(request.user):
-        return redirect('admin_login')
+    books = Book.objects.all()
+    categories = Category.objects.all()
 
-    # Xử lý logic để lấy danh sách sách từ cơ sở dữ liệu
-    # books = Book.objects.all()  # Giả sử bạn có một mô hình Book
+    category_dict = {category.id: category.name for category in categories}
 
-    return render(request, 'admin/book/list_book.html', {
-        'user': request.user,
-        # 'books': books,  # Truyền danh sách sách vào template
-    })
+    for book in books:
+        book.category_name = category_dict.get(book.category_id)
+
+    context = {
+        'books': books,
+    }
+
+    return render(request, 'admin/book/list_book.html', context)
