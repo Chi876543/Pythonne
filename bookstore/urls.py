@@ -11,6 +11,7 @@ from .views.staff import stock_out
 from .views.admin import book_admin
 from .views.admin import user_admin
 from .views.admin import group_permission
+from .views.admin import category_admin
 
 urlpatterns = [
     path('', home.home, name='home'),
@@ -32,7 +33,7 @@ urlpatterns = [
     path('admin/list_book', book_admin.admin_list_books, name = 'list_book'),
 
     # Quản lý danh mục
-    #path('admin/list_category', category_admin.admin_list_category, name = 'list_category'),
+    path('admin/list_category', category_admin.admin_list_category, name = 'list_category'),
 
     # Quản lý đơn hàng
     path('admin/list_order',order_status. admin_list_orders, name = 'list_order'),
@@ -42,6 +43,7 @@ urlpatterns = [
 
     # Quản lý phiếu xuất
     path('admin/list_stockout', stock_out.admin_stock_out, name = 'list_stock_out'),
+    path('admin/stockout',stock_out.add_stock_out, name = 'add_stock_out'),
 
 
 

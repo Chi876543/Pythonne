@@ -1,32 +1,47 @@
-{% extends 'admin/admin_base.html'%}
+{% extends 'admin/admin_base_site.html'%}
 {% load static %}
 {% block title %}Danh sách phiếu xuất{% endblock %}
 {% block header_title %}Quản lý phiếu xuất{% endblock %}
-
+{% block add_url %}{% url 'add_stock_out' %}{% endblock %}
+{% block filter_fields %}
+    <input type="text" name="book_name" placeholder="Tìm theo tên sách">
+    <input type="date" name="export_date" placeholder="Ngày xuất">
+{% endblock %}
+{% block table_header %}
+    <tr>
+        <th>ID</th>
+        <th>Tên sách</th>
+        <th>Số lượng</th>
+        <th>Tổng tiền</th>
+        <th>Ngày xuất hàng</th>
+        <th>ID Hóa đơn</th>
+        <th>Ghi chú</th>
+    </tr>
+{% endblock %}
 {% block content %}
-<div class ="content">
-    <!-- Form thêm/sửa đơn hàng -->
-     <div>
-
-     </div>  
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Tên sách</th>
-                    <th>Số Lượng</th>
-                    <th>Tổng tiền</th>
-                    <th>Ngày xuất hàng</th>
-                    <th>ID Hóa Đơn</th>
-                    <th>Ghi chú</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            </tbody>
-        </table>
-</div>    
-<script>
-    
-</script>
+{{ block.super }}
+<!-- Form thêm/sửa phiếu xuất -->
+<div class="form-container" id="stockOutForm" style="display: none;">
+    <h3 id="formTitle">Thêm Phiếu xuất</h3>
+    <form method="POST" action="{% url 'list_stock_out' %}">
+        {% csrf_token %}
+        <input type="hidden" name="stock_out_id" id="stockOutId">
+        <select name="book" id="bookSelect" required>
+            {% for book in books %}
+            <option value="{{ book.id }}">{{ book.title }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" name="quantity" id="quantity" placeholder="Số lượng" required>
+        <input type="number" name="total_price" id="totalPrice" placeholder="Tổng tiền" step="0.01" required>
+        <input type="date" name="export_date" id="exportDate" required>
+        <select name="order" id="orderSelect" required>
+            {% for order in orders %}
+            <option value="{{ order.id }}">Hóa đơn {{ order.id }}</option>
+            {% endfor %}
+        </select>
+        <textarea name="notes" id="notes" placeholder="Ghi chú"></textarea>
+        <button type="submit">Lưu</button>
+        <button type="button" onclick="hideForm()">Hủy</button>
+    </form>
+</div>
 {% endblock%}

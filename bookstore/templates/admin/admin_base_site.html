@@ -1,0 +1,42 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+
+{% block title %}
+    {% block list_title %}Danh sách{% endblock %}
+{% endblock %}
+{%block content%}
+    <div class = "main-content"> 
+        {% block filter_form %}
+        <div class="filter-container">
+            <!-- Form lọc sẽ được thêm sau khi có chi tiết -->
+            <form method="GET" class="filter-form">
+                <!-- Các trường lọc sẽ được định nghĩa trong template con -->
+                {% block filter_fields %}
+                {% endblock %}
+                <button type="submit" class="filter-btn">Lọc</button>
+            </form>
+        </div>
+        {% endblock %}
+        <!-- Nút hành động (Thêm mới, v.v.) -->
+        {% block action_buttons %}
+            <div class="action-buttons">
+                <a href="{% block add_url %}{% endblock %}" class="add-btn">Thêm mới</a>
+            </div>
+        {% endblock %}
+        <!-- Bảng dữ liệu -->
+        {% block table_content %}
+        <table>
+            <thead>
+                {% block table_header %}
+                <!-- Tiêu đề bảng sẽ được định nghĩa trong template con -->
+                {% endblock %}
+            </thead>
+            <tbody>
+                {% block table_body %}
+                <!-- Dữ liệu bảng sẽ được định nghĩa trong template con -->
+                {% endblock %}
+            </tbody>
+        </table>
+        {% endblock %}
+    </div>
+{%endblock%}

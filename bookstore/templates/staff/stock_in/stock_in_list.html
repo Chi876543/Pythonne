@@ -1,31 +1,34 @@
-{% extends 'admin/admin_base.html'%}
+{% extends 'admin/admin_base_site.html'%}
 {% load static %}
 {% block title %}Danh sách phiếu nhập{% endblock %}
 {% block header_title %}Quản lý phiếu nhập{% endblock %}
-
-{% block content %}
-<div class ="content">
-    <!-- Form thêm/sửa đơn hàng -->
-     <div>
-
-     </div>  
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Tên sách</th>
-                    <th>Số Lượng</th>
-                    <th>Tổng tiền</th>
-                    <th>Ngày nhận hàng</th>
-                    <th>Ghi chú</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            </tbody>
-        </table>
-</div>    
-<script>
-    
-</script>
-{% endblock%}
+{%block filter_fields%}
+    <input type="text" name="book_name" placeholder="Tìm theo tên sách">
+    <input type="date" name="import_date" placeholder="Tìm theo ngày nhập">
+{%endblock%}
+{% block table_header %}
+    <tr>
+        <th>ID</th>
+        <th>Tên sách</th>
+        <th>Số Lượng</th>
+        <th>Tổng tiền</th>
+        <th>Ngày nhận hàng</th>
+        <th>Ghi chú</th>
+    </tr>
+{% endblock %}
+ {% block table_body %}
+    {% for stock_in in stock_ins %}
+    <tr>
+        <td>{{ stock_in.id }}</td>
+        <td>{{ stock_in.book.title }}</td>
+        <td>{{ stock_in.quantity }}</td>
+        <td>{{ stock_in.total_price }}</td>
+        <td>{{ stock_in.date_received }}</td>
+        <td>{{ stock_in.note }}</td>
+    </tr>
+    {% empty %}
+            <tr>
+                <td colspan="6">Chưa có phiếu nhập nào.</td>
+            </tr>
+    {% endfor %}
+{% endblock %}

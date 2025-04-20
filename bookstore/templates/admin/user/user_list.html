@@ -1,38 +1,35 @@
-{% extends 'admin/admin_base.html'%}
+{% extends 'admin/admin_base_site.html'%}
 {% load static %}
 {% block title %}Danh sách khách hàng{% endblock %}
 {% block header_title %}Quản lý khách hàng{% endblock %}
 
-{% block content %}
-<div class ="content">
-        <table>
-            <thead>
-                <tr>
-                    <th>Tên khách hàng</th>
-                    <th>Tài khoảng </th>
-                    <th>Vai trò</th>
-                    <th>Trạng thái</th>
-                    <th>Is Staff</th>
-                    <th>Is Superuser</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                <tr>
-                    <td>{{user.full_name}}</td>
-                    <td>{{user.username}}</td>
-                    <td>{{user.role}}</td>
-                    <td>{{user.status}}</td>
-                    <td>{{user.is_staff}}</td>
-                    <td>{{user.is_superuser}}</td>
-                </tr>
-                {% empty %}
-                <tr> Không có User nào. </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-</div>    
-<script>
-    
-</script>
-{% endblock%}
+{%block table_header%}
+    <tr>
+        <th>Tên người dùng</th>
+        <th>Tài khoản </th>
+        <th>Vai trò</th>
+        <th>Trạng thái</th>
+        <th>Is Staff</th>
+        <th>Is Superuser</th>
+    </tr>
+{% endblock %}
+{% block table_body %}
+    {% for user in users %}
+    <tr>
+        <td>{{ user.first_name }} {{ user.last_name }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.get_role_display }}</td>
+        <td>{{ user.get_status_display }}</td>
+        <td>{{ user.is_staff }}</td>
+        <td>{{ user.is_superuser }}</td>
+    </tr>
+    {% empty %}
+        <tr>
+            <td colspan="6">Chưa có người dùng nào.</td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+{% block filter_fields %}
+    <input type="text" name="customer_name" placeholder="Tìm theo tên người dùng">
+    <input type="text" name="username" placeholder="Tìm theo tài khoản">
+{% endblock %}

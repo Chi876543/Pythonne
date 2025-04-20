@@ -1,47 +1,46 @@
 
-{% extends 'admin/admin_base.html' %}
+{% extends 'admin/admin_base_site.html' %}
 {% load static %}
 {% block title %}Danh sách Sách{% endblock %}
 {% block header_title %}Quản lý Sách{% endblock %}
-
-{% block content %}
-<div class="content">
-    <!-- Bảng danh sách sách -->
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Tên sách</th>
-                <th>Hình ảnh</th>
-                <th>Tác giả</th>
-                <th>Giá</th>
-                <th>Số lượng</th>
-                <th>Danh mục</th>
-                <th>Trạng thái</th>                
-            </tr>
-        </thead>
-        <tbody>
-            {% for book in books %}
-            <tr>
-                <td>{{book.id}}</td>
-                <td>{{book.title}}</td>
-                <td><img src="/media/{{book.imagePath}}" width="60" height='70'></td>
-                <td>{{book.author}}</td>
-                <td>{{book.price}}</td>
-                <td>{{book.stock}}</td>
-                <td>{{category_name}}</td>
-                <td>{{book.status}}</td>
-            </tr>
-            {% empty %}
+{% comment %} {% block add_url %}{% url 'add_book' %}{% endblock %} {% endcomment %}
+{% block filter_fields %}
+    <input type="text" name="book_name" placeholder="Tìm theo tên sách">
+    <input type="text" name="author" placeholder="Tìm theo tác giả">
+{% endblock %}
+{% block table_header %}
+    <tr>
+        <th>ID</th>
+        <th>Tên sách</th>
+        <th>Hình ảnh</th>
+        <th>Tác giả</th>
+        <th>Giá</th>
+        <th>Số lượng</th>
+        <th>Danh mục</th>
+        <th>Trạng thái</th>  
+    </tr>
+{% endblock %}
+{%block table_body %}
+    <!-- Dữ liệu bảng sẽ được định nghĩa trong template con -->
+    {% for book in books %}
+    <tr>
+        <td>{{ book.id }}</td>
+        <td>{{ book.title }}</td>
+        <td><img src="/media/{{ book.imagePath }}" width="60" height='70'></td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.price }}</td>
+        <td>{{ book.stock }}</td>
+        <td>{{ category_name }}</td>
+        <td>{{ book.status }}</td>
+        {% comment %} <td>
+            <a href="{% url 'change_book' book.id %}" class="edit-btn">Sửa</a>
+            <a href="{% url 'delete_book' book.id %}" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+        </td> {% endcomment %}
+    </tr>
+    {% empty %}
             <tr>
                 <td colspan="8">Chưa có sách nào.</td>
             </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-<script>
-    
-</script>
+    {% endfor %}
 {% endblock %}
+
