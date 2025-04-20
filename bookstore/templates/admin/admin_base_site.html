@@ -19,9 +19,9 @@
         {% endblock %}
         <!-- Nút hành động (Thêm mới, v.v.) -->
         {% block action_buttons %}
-            <div class="action-buttons">
+            {% comment %} <div class="action-buttons">
                 <a href="{% block add_url %}{% endblock %}" class="add-btn">Thêm mới</a>
-            </div>
+            </div> {% endcomment %}
         {% endblock %}
         <!-- Bảng dữ liệu -->
         {% block table_content %}

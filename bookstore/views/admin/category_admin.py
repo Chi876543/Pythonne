@@ -12,4 +12,11 @@ def admin_list_category(request):
     View function to list all categories in the admin panel.
     """
     categories = Category.objects.all()
-    return render(request, 'admin/category/list_category.html', {'categories': categories})
+    category_name = request.GET.get('category_name', '')
+    if category_name:
+        categories = categories.filter(name__icontains=category_name)
+    context ={
+        'categories': categories,
+        'category_name': request.GET.get('category_name', ''),
+    }
+    return render(request, 'admin/category/list_category.html',context)

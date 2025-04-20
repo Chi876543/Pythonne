@@ -8,11 +8,16 @@ def can_view_user(user):
 @login_required
 @user_passes_test(can_view_user)
 def admin_list_users(request):
-   
-    users = User.objects.all()
+    role_filter = request.GET.get('role')
+    if role_filter:
+        users = User.objects.filter(role=role_filter)
+    else:
+        users = User.objects.all()
 
     context = {
+        'roles': User.ROLE_CHOICES,
         'users': users,
+        'role_filter': role_filter
     }
 
     return render(request, 'admin/user/user_list.html', context)

@@ -11,17 +11,22 @@
         <th>Trạng thái</th>
         <th>Is Staff</th>
         <th>Is Superuser</th>
+        <th colspan ="2">Thao tác</th>
     </tr>
 {% endblock %}
 {% block table_body %}
     {% for user in users %}
     <tr>
-        <td>{{ user.first_name }} {{ user.last_name }}</td>
+        <td>{{ user.full_name }}</td>
         <td>{{ user.username }}</td>
         <td>{{ user.get_role_display }}</td>
         <td>{{ user.get_status_display }}</td>
         <td>{{ user.is_staff }}</td>
         <td>{{ user.is_superuser }}</td>
+        <td>
+            <a href="#" class="edit-btn">Sửa</a>
+            <a href="#" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+        </td> 
     </tr>
     {% empty %}
         <tr>
@@ -29,7 +34,14 @@
         </tr>
     {% endfor %}
 {% endblock %}
-{% block filter_fields %}
-    <input type="text" name="customer_name" placeholder="Tìm theo tên người dùng">
-    <input type="text" name="username" placeholder="Tìm theo tài khoản">
+{% block filter_fields %}   
+    {% comment %} <input name ="full_name" id="full_name" type="text" placeholder="Tên người dùng" value="{{ full_name_filter|default_if_none: '' }}"> {% endcomment %}
+    <select name="role" id="role">
+        <option value=""  {% if not role_filter %}selected{% endif %}>Chọn vai trò</option>
+        {% for value, label in roles %}
+        <option value="{{ value }}" {% if role_filter == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+    
+    
 {% endblock %}
