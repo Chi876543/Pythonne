@@ -5,8 +5,16 @@
 {% block header_title %}Quản lý Sách{% endblock %}
 {% comment %} {% block add_url %}{% url 'add_book' %}{% endblock %} {% endcomment %}
 {% block filter_fields %}
-    <input type="text" name="book_name" placeholder="Tìm theo tên sách">
-    <input type="text" name="author" placeholder="Tìm theo tác giả">
+<select name="category_name" id="category_name">
+    <option value="" {% if not category_name %}selected{% endif %}>Chọn danh mục</option>
+    {% for category in categories %}
+        <option value="{{ category.id }}" {% if category_name == category.id|safe %}selected{% endif %}>
+            {{ category.name }}
+        </option>
+    {% endfor %}
+</select>
+<input type="text" name="title" id="title" placeholder="Tìm theo tên sách" value="{{ title|default_if_none:'' }}">
+<input type="text" name="author" id="author" placeholder="Tìm theo tác giả" value="{{ author|default_if_none:'' }}">
 {% endblock %}
 {% block table_header %}
     <tr>
@@ -18,6 +26,7 @@
         <th>Số lượng</th>
         <th>Danh mục</th>
         <th>Trạng thái</th>  
+        <th colspan ="2">Thao tác</th>
     </tr>
 {% endblock %}
 {%block table_body %}
@@ -30,12 +39,12 @@
         <td>{{ book.author }}</td>
         <td>{{ book.price }}</td>
         <td>{{ book.stock }}</td>
-        <td>{{ category_name }}</td>
+        <td>{{ book.category.name }}</td>
         <td>{{ book.status }}</td>
-        {% comment %} <td>
-            <a href="{% url 'change_book' book.id %}" class="edit-btn">Sửa</a>
-            <a href="{% url 'delete_book' book.id %}" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
-        </td> {% endcomment %}
+        <td>
+            <a href="#" class="edit-btn">Sửa</a>
+            <a href="#" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+        </td> 
     </tr>
     {% empty %}
             <tr>

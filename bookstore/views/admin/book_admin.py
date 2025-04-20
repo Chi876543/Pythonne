@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import logout, authenticate, login
+from django.shortcuts import render
 from ...models import Book, Category
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -9,16 +8,24 @@ def can_view_group(user):
 @login_required
 @user_passes_test(can_view_group)
 def admin_list_books(request):
+    category_filter = request.GET.get('category_name', '')
+    title_filter = request.GET.get('title', '')
+    author_filter = request.GET.get('author', '')
     books = Book.objects.all()
+    if category_filter:
+        books = books.filter(category_id=category_filter)
+    if title_filter:
+        books = books.filter(title__icontains=title_filter)
+    if author_filter:
+        books = books.filter(author__icontains=author_filter)
     categories = Category.objects.all()
 
-    category_dict = {category.id: category.name for category in categories}
-
-    for book in books:
-        book.category_name = category_dict.get(book.category_id)
-
     context = {
+        'categories': categories,
         'books': books,
+        'category_name': category_filter,
+        'title': title_filter,
+        'author': author_filter,
     }
 
     return render(request, 'admin/book/list_book.html', context)
