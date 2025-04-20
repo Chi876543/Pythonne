@@ -111,12 +111,12 @@ header a:hover {
 
 /* Main Content */
 .main-content {
-    margin-left: 150px;
-    width: calc(100% - 150px);
+    margin-left: 250px;
+    width: calc(100% - 250px);
     padding: 10px;
-    margin-top: 30px; /* Tránh bị header che */
+    margin-top: 60px; /* Tránh bị header che */
     background-color: #1e1e2f; /* Gần đen, nền card */
-    border-radius: 8px;
+    /* border-radius: 8px; */
     transition: background-color 0.3s ease;
 }
 

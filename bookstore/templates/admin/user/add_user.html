@@ -1,0 +1,64 @@
+{% extends "admin/admin_base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="form_add">
+    <h2>Thêm Người Dùng Mới</h2>
+    <form method="POST" action="{% url 'add_user' %}">  <!-- Thay 'create_user' bằng URL bạn muốn xử lý -->
+        {% csrf_token %}
+        <div>
+            <label for="username">Tên Người Dùng:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Mật Khẩu:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <label for="full_name">Full name:</label>
+            <input type="text" id="full_name" name="full_name" required>
+        </div>
+        <div>
+            <label for="role">Vai Trò:</label>
+            <select id="role" name="role" required>
+                <option value="customer">Khách hàng</option>
+                <option value="staff">Nhân Viên</option>
+                <option value="manager">Quản Trị Viên</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone">
+        </div>
+        <div>
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address">
+        </div>
+        <div>
+            <label for="status">Status:</label>
+            <select id="status" name="status" required>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+        </div>
+        <div>
+            <label for="is_staff">Staff:</label>
+            <input type="checkbox" id="is_staff" name="is_staff">
+        </div>
+        <div>
+            <label for="is_superuser">Superuser:</label>
+            <input type="checkbox" id="is_superuser" name="is_superuser">
+        </div>
+        <div>
+            <button type="submit">Thêm Người Dùng</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

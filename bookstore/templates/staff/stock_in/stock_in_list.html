@@ -1,7 +1,15 @@
 {% extends 'admin/admin_base_site.html'%}
 {% load static %}
 {% block title %}Danh sách phiếu nhập{% endblock %}
-{% block header_title %}Quản lý phiếu nhập{% endblock %}
+
+{% block action_buttons %}
+{% if can_add_stockin %}
+<div class="action-buttons">
+    <a href="{% url 'add_stockin' %}" class="add-btn">Thêm mới</a>
+</div>
+{% endif %}
+{% endblock %}
+
 {%block filter_fields%}
     <input type="text" name="book_name" placeholder="Tìm theo tên sách">
     <input type="date" name="import_date" placeholder="Tìm theo ngày nhập">

@@ -3,6 +3,14 @@
 {% block title %}Danh sách khách hàng{% endblock %}
 {% block header_title %}Quản lý khách hàng{% endblock %}
 
+{% block action_buttons %}
+{% if can_add_user %}
+<div class="action-buttons">
+    <a href="{% url 'add_user' %}" class="add-btn">Thêm mới</a>
+</div>
+{% endif %}
+{% endblock %}
+
 {%block table_header%}
     <tr>
         <th>Tên người dùng</th>
