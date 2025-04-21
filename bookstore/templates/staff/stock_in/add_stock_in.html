@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="form-container">
-    <h2>Thêm Phiếu Nhập Kho Mới</h2>
+    <h2 style="margin-bottom: 10px">Thêm Phiếu Nhập Kho Mới</h2>
     <form method="POST" action="{% url 'add_stockin' %}">  
         {% csrf_token %}
         
@@ -19,6 +19,11 @@
         <div class="form-group">
             <label for="quantity">Số Lượng:</label>
             <input type="number" id="quantity" name="quantity" required min="1" placeholder="Nhập số lượng">
+        </div>
+
+        <div class="form-group">
+            <label for="price">Giá tiền:</label>
+            <input type="number" id="price" name="price" required min="1" placeholder="Nhập giá sản phẩm">
         </div>
 
         <div class="form-group">

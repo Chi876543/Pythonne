@@ -18,10 +18,14 @@ def admin_stock_in(request):
     book_filter = request.GET.get('book_name')
     start_date_filter = request.GET.get('start_date')
     end_date_filter = request.GET.get('end_date')
+    stock_ins = StockIn.objects.all()
     books = Book.objects.all()  # Giả sử bạn có một mô hình Book
+    for stock_in in stock_ins:
+        stock_in.total_price = stock_in.price * stock_in.quantity
     return render(request, 'staff/stock_in/stock_in_list.html', {
         'user': request.user,
         'books': books,  # Truyền danh sách sách vào template
+        'stock_ins': stock_ins,
     })
 
 @login_required
@@ -32,12 +36,13 @@ def add_stockin(request):
         quantity = request.POST.get('quantity')
         date = request.POST.get('date')
         note = request.POST.get('note')
-
+        price = request.POST.get('price')
         stockin = StockIn(
             quantity=quantity,
             date=date,
             note=note,
-            book_id=book_id
+            book_id=book_id,
+            price =price,
         )
         stockin.save()
 

@@ -80,7 +80,7 @@ class StockIn(models.Model):
     quantity = models.PositiveIntegerField()
     date = models.DateTimeField(auto_now_add=True)
     note = models.TextField(null=True, blank=True)
-
+    price = models.FloatField(default=0)
     def __str__(self):
         return f"StockIn {self.book.title} - {self.quantity}"
 

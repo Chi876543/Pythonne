@@ -4,7 +4,7 @@
 {% block content %}
 <div class="form-container">
     <h2 style="margin-bottom: 10px">Thêm Danh Mục Mới</h2>
-    <form method="POST" action="{% url 'add_category' %}">  <!-- Thay 'add_category' bằng URL bạn đã định nghĩa trong urls.py -->
+    <form method="POST" action="{% url 'add_category' %}">  
         {% csrf_token %}
         <div class ="form-group">
             <label for="category_name">Tên Danh Mục:</label>
