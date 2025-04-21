@@ -13,16 +13,26 @@ def can_add_user(user):
 @user_passes_test(can_view_user)
 def admin_list_users(request):
     role_filter = request.GET.get('role')
+    is_staff_filter = request.GET.get('is_staff')
+    is_superuser_filter = request.GET.get("is_superuser")
+    full_name_filter = request.GET.get("full_name")
+    users = User.objects.all()
+    if full_name_filter:
+        users = users.filter(full_name__icontains=full_name_filter)
     if role_filter:
-        users = User.objects.filter(role=role_filter)
-    else:
-        users = User.objects.all()
-    
+        users = users.filter(role=role_filter)
+    if is_staff_filter:
+        users = users.filter(is_staff = is_staff_filter)
+    if is_superuser_filter:
+        users = users.filter(is_active = is_superuser_filter)
     context = {
         'roles': User.ROLE_CHOICES,
         'users': users,
-        'role_filter': role_filter
-    }
+        'role_filter': role_filter,
+        'is_staff_filter': is_staff_filter,
+        'is_superuser_filter': is_superuser_filter,
+        'full_name_filter': full_name_filter,
+    }    
 
     return render(request, 'admin/user/user_list.html', context)
 

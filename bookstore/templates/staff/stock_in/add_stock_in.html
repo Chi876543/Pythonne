@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="form_add">
+<div class="form-container">
     <h2>Thêm Phiếu Nhập Kho Mới</h2>
     <form method="POST" action="{% url 'add_stockin' %}">  
         {% csrf_token %}
@@ -18,17 +18,17 @@
 
         <div class="form-group">
             <label for="quantity">Số Lượng:</label>
-            <input type="number" id="quantity" name="quantity" required min="1">
+            <input type="number" id="quantity" name="quantity" required min="1" placeholder="Nhập số lượng">
         </div>
 
         <div class="form-group">
             <label for="date_received">Ngày Nhập:</label>
-            <input type="date" id="date_received" name="date_received" required>
+            <input type="date" id="date_received" name="date_received" required placeholder="Nhập ngày nhập">
         </div>
 
         <div class="form-group">
             <label for="note">Ghi chú:</label>
-            <input type="text" id="note" name="note">
+            <input type="text" id="note" name="note" placeholder="Nhập ghi chú">
         </div>
 
         <div class="form-actions">

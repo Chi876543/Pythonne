@@ -2,16 +2,16 @@
 {% load static %}
 
 {% block content %}
-<div class="form_add">
-    <h2>Thêm Danh Mục Mới</h2>
+<div class="form-container">
+    <h2 style="margin-bottom: 10px">Thêm Danh Mục Mới</h2>
     <form method="POST" action="{% url 'add_category' %}">  <!-- Thay 'add_category' bằng URL bạn đã định nghĩa trong urls.py -->
         {% csrf_token %}
-        <div>
+        <div class ="form-group">
             <label for="category_name">Tên Danh Mục:</label>
-            <input type="text" id="category_name" name="category_name" required>
+            <input type="text" id="category_name" name="category_name" required placeholder="Nhập tên danh mục">
         </div>
-        <div>
-            <button type="submit">Thêm Danh Mục</button>
+        <div class ="form-actions">
+            <button type="submit" class="save-btn">Thêm Danh Mục</button>
         </div>
     </form>
 </div>
