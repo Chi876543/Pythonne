@@ -3,15 +3,16 @@ from ...models import Book, StockIn
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from datetime import datetime, timedelta
+
 def can_view_stockin(user):
     return user.has_perm('bookstore.can_view_stockin')
 
 def can_add_stockin(user):
     return user.has_perm('bookstore.can_add_stockin')
 
+@login_required
+@user_passes_test(can_view_stockin)
 def admin_stock_in(request):
-    # if not is_admin(request.user):
-    #     return redirect('admin_login')
     book_filter = request.GET.get('book_name', '')
     start_date_filter = request.GET.get('start_date', '')
     end_date_filter = request.GET.get('end_date', '')

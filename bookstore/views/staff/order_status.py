@@ -3,24 +3,29 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ...models import Order, User, OrderDetail, StockOut
 from django.utils import timezone
 from django.contrib import messages
-def is_admin(user):
-    return user.is_authenticated and user.is_staff
+from django.contrib.auth.decorators import login_required, user_passes_test
 
+def can_view_order(user):
+    return user.has_perm('bookstore.can_view_order')
+
+def can_change_order(user):
+    return user.has_perm('bookstore.can_change_order')
+
+# def can_view_order_detail(user):
+#     return user.has_perm('bookstore.can_view_orderdetail')
+
+@login_required
+@user_passes_test(can_view_order)
 def admin_list_orders(request):
-    # Chỉ admin mới có quyền truy cập
-    if not is_admin(request.user):
-        return redirect('admin_login')
-
     orders = Order.objects.all()  
     users = User.objects.all()  # Lấy tất cả người dùng
     return render(request, 'staff/order/order_list.html', {
         'users': users,
         'orders': orders,  
     })
+
+@login_required
 def admin_order_detail(request, order_id):
-    # Chỉ admin mới có quyền truy cập
-    if not is_admin(request.user):
-        return redirect('admin_login')
 
     order = Order.objects.get(id=order_id)  
     users = User.objects.all()  # Lấy tất cả người dùng
@@ -28,6 +33,9 @@ def admin_order_detail(request, order_id):
         'users': users,
         'order': order,  
     })
+
+@login_required
+@user_passes_test(can_change_order)
 def update_order_status(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     current_status = order.status
