@@ -16,21 +16,25 @@
 {% endblock %}
 {% block table_header %}
     <tr>
-        <th>Chọn</th>
+        <th>STT</th>
         <th>Tên Danh mục</th>
+        <th>Thao tác </th>
     </tr>
 {% endblock %}
 {% block table_body %}
     {% for category in categories %}
     <tr>
         <td>
-            <input type="checkbox" name="selected_categories" value="{{ category.id }}">
+            {{ forloop.counter }}
         </td>
         <td>{{ category.name }}</td>
+        <td>
+            <a href="{% url 'change_category' category.id %}" class="edit-btn">Sửa</a>
+        </td> 
     </tr>
     {% empty %}
         <tr>
-            <td colspan="2">Chưa có danh mục nào.</td>
+            <td colspan="3">Chưa có danh mục nào.</td>
         </tr>
     {% endfor %}
 {% endblock %}

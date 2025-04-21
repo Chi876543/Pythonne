@@ -1,0 +1,30 @@
+{% extends "admin/admin_base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="form-container">
+    <h2 style="margin-bottom:10px">Sửa Nhóm</h2>
+    <form method="POST" action="{% url 'change_group' group.id %}">  <!-- Assuming 'change_group' takes group ID -->
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="group_name">Tên Nhóm:</label>
+            <input type="text" id="group_name" name="group_name" required value="{{ group.name }}">  <!-- Pre-fill with current group name -->
+        </div>
+
+        <div class="form-group">
+            <label for="permissions">Quyền:</label>
+            <select id="permissions" name="permissions" multiple style="height: 200px; width: 100%;">
+                {% for permission in permissions %}
+                    <option value="{{ permission.id }}" {% if permission.id in group_permission_ids %}selected{% endif %}>{{ permission.name }}</option>
+                {% endfor %}
+            </select>
+            <small>Giữ Ctrl (hoặc Cmd trên Mac) để chọn nhiều quyền.</small>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="save-btn">Sửa</button>
+            <button type="button" class="cancel-btn" onclick="window.location.href='{% url 'list_group' %}'">Hủy</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

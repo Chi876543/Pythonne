@@ -1,0 +1,17 @@
+{% extends "admin/admin_base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Xóa Nhóm</h2>
+    <p>Bạn có chắc chắn muốn xóa nhóm "{{ group.name }}" không?</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-actions">
+            <button type="submit" class="delete-btn">Xóa Nhóm</button>
+            <button type="button" class="cancel-btn" onclick="window.location.href='{% url 'list_group' %}'">Hủy</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

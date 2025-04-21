@@ -19,21 +19,26 @@
 {% endblock %}
 {% block table_header %}
     <tr>
-        <th>Chọn</th>
+        <th>STT</th>
         <th>Tên Nhóm</th>
+        <th>Thao tác</th>
     </tr>
 {% endblock %}
 {% block table_body %}
     {% for group in groups %}
     <tr>
         <td>
-            <input type="checkbox" name="selected_groups" value="{{ group.id }}">
+            {{ forloop.counter }}
         </td>
         <td>{{ group.name }}</td>
+        <td>
+            <a href="{% url 'change_group' group.id %}" class="edit-btn">Sửa</a>
+            <a href="{% url 'delete_group' group.id %}" class="edit-btn">Xóa</a>
+        </td>
     </tr>
     {% empty %}
         <tr>
-            <td colspan="2">Chưa có nhóm nào.</td>
+            <td colspan="3">Chưa có nhóm nào.</td>
         </tr>
     {% endfor %}
 {% endblock %}

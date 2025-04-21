@@ -1,0 +1,19 @@
+{% extends "admin/admin_base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="form-container">
+    <h2 style="margin-bottom: 10px">Sửa Danh Mục</h2>
+    <form method="POST" action="{% url 'change_category' category.id %}">  
+        {% csrf_token %}
+        <div class ="form-group">
+            <label for="category_name">Tên Danh Mục:</label>
+            <input type="text" id="category_name" name="category_name" required value="{{category.name}}">
+        </div>
+        <div class ="form-actions">
+            <button type="submit" class="save-btn">Lưu</button>
+            <a href="{% url 'list_category' %}" class="cancel-btn">Hủy</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

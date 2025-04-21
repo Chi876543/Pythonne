@@ -9,6 +9,9 @@ def can_view_category(user):
 def can_add_category(user):
     return user.has_perm('bookstore.can_add_category')
 
+def can_change_category(user):
+    return user.has_perm('bookstore.can_change_category')
+
 @login_required
 @user_passes_test(can_view_category)
 def admin_list_category(request):
@@ -39,3 +42,19 @@ def add_category(request):
         return redirect('list_category')
     
     return render(request, 'admin/category/add_category.html')
+
+@login_required
+@user_passes_test(can_change_category)
+def change_category(request, category_id):
+    category = Category.objects.get(id=category_id) 
+
+    if request.method =='POST':
+        name = request.POST.get('name')
+
+        category.name = name
+        category.save()
+
+        messages.success(request, 'Danh mục đã được cập nhật thành công!')
+        return redirect('list_category') 
+
+    return render(request, 'admin/category/change_category.html', {'category': category})

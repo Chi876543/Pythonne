@@ -26,8 +26,8 @@ urlpatterns = [
     # Quản lý Group Permission
     path('admin/list_group', group_permission.admin_list_group, name = 'list_group'),
     path('admin/lis_group/add', group_permission.add_group, name = 'add_group'),
-    #path('admin/list_group/chage', group_permission.change_group, name = 'change_group'),
-    #path('admin/list_group/deletel', group_permission.deletel_group, name = 'deletel_group'),
+    path('admin/list_group/change/<int:group_id>/', group_permission.change_group, name = 'change_group'),
+    path('admin/list_group/delete/<int:group_id>/', group_permission.delete_group, name = 'delete_group'),
 
     # Quản lý người dùng
     path('admin/list_user', user_admin.admin_list_users, name = 'list_user'),
@@ -42,7 +42,7 @@ urlpatterns = [
     # Quản lý danh mục
     path('admin/list_category', category_admin.admin_list_category, name = 'list_category'),
     path('admin/list_category/add', category_admin.add_category, name = 'add_category'),
-    #path('admin/list_category/change', category_admin.change_category, name = 'change_category'),
+    path('admin/list_category/change/<int:category_id>/', category_admin.change_category, name = 'change_category'),
 
     # Quản lý đơn hàng
     path('admin/list_order', order_status. admin_list_orders, name = 'list_order'),

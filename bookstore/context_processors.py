@@ -31,10 +31,10 @@ def permission_context(request):
         #"can_delete_report": user.has_perm('bookstore.delete_report'),
         "can_view_users": user.has_perm('auth.view_user'),                                  # Kiểm tra xem user có quyền xem user không
         "can_add_user": user.has_perm('bookstore.add_user'),
-        #"can_change_user": user.has_perm('bookstore.change_user'),
+        "can_change_user": user.has_perm('bookstore.change_user'),
         #"can_delete_user": user.has_perm('bookstore.delete_user'),
         "can_view_groups": user.has_perm('auth.view_group'),                                  # Kiểm tra xem group có quyền xem user không
         "can_add_group": user.has_perm('bookstore.add_group'),
-        #"can_change_user": user.has_perm('bookstore.change_user'),
-        #"can_delete_user": user.has_perm('bookstore.delete_user'),
+        "can_change_group": user.has_perm('bookstore.change_group'),
+        "can_delete_group": user.has_perm('bookstore.delete_group'),
     }
