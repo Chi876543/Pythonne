@@ -30,6 +30,11 @@ def add_category(request):
     if request.method == 'POST':
         category_name = request.POST.get('category_name')
 
+        category = Category(
+            name=category_name,
+        )
+        category.save()
+
         messages.success(request, 'Thêm danh mục thành công.')
         return redirect('list_category')
     

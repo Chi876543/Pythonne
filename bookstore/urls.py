@@ -56,7 +56,7 @@ urlpatterns = [
     # Quản lý phiếu xuất
     path('admin/list_stockout', stock_out.admin_stock_out, name = 'list_stock_out'),
     #path('admin/list_stockout/change', stock_out.change_stockout, name = 'change_stockout'),
-    path('admin/stockout', stock_out.add_stock_out, name = 'add_stock_out'),
+    # path('admin/stockout', stock_out.add_stock_out, name = 'add_stock_out'),
 
 
 

@@ -22,46 +22,15 @@
         <th>Ghi chú</th>
     </tr>
 {% endblock %}
-{% block content %}
-{{ block.super }}
-<!-- Form thêm/sửa phiếu xuất -->
-<div class="form-container" id="stockOutForm" style="display: none;">
-    <h3 id="formTitle">Thêm Phiếu xuất</h3>
-    <form method="POST" action="{% url 'list_stock_out' %}">
-        {% csrf_token %}
-        <input type="hidden" name="stock_out_id" id="stockOutId">
-        <select name="book" id="bookSelect" required>
-            {% for book in books %}
-            <option value="{{ book.id }}">{{ book.title }}</option>
-            {% endfor %}
-        </select>
-        <input type="number" name="quantity" id="quantity" placeholder="Số lượng" required>
-        <input type="number" name="total_price" id="totalPrice" placeholder="Tổng tiền" step="0.01" required>
-        <input type="date" name="export_date" id="exportDate" required>
-        <select name="order" id="orderSelect" required>
-            {% for order in orders %}
-            <option value="{{ order.id }}">Hóa đơn {{ order.id }}</option>
-            {% endfor %}
-        </select>
-        <textarea name="notes" id="notes" placeholder="Ghi chú"></textarea>
-        <button type="submit">Lưu</button>
-        <button type="button" onclick="hideForm()">Hủy</button>
-    </form>
-</div>
-{% endblock%}
-{%block script%}
-<script>
-    document.getElementById('start_date').addEventListener('change', function () {
-        const startDate = this.value;
-        const endDateInput = document.getElementById('end_date');
-
-        // Cập nhật ngày tối thiểu có thể chọn cho ngày kết thúc
-        endDateInput.min = startDate;
-
-        // Nếu ngày kết thúc hiện tại < ngày bắt đầu → xóa luôn để tránh sai
-        if (endDateInput.value && endDateInput.value < startDate) {
-            endDateInput.value = '';
-        }
-    });
-</script>
+{%block table_body%}
+    {%for stock_out in stock_outs%}
+    <tr>
+        <td>{{stock_out.id}}</td>
+        <td>{{ stock_out.book.title }}</td>
+        <td>{{ stock_out.quantity }}</td>
+        <td>{{ stock_out.total_price|floatformat:0 }}</td>
+        <td>{{ stock_out.order.created_at|date:"d/m/Y H:i" }}</td>
+        <td>{{ stock_out.order.id }}</td>
+    </tr>
+    {%endfor%}
 {%endblock%}

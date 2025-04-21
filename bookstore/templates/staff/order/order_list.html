@@ -9,10 +9,25 @@
         <th>Tên khách hàng</th>
         <th>Địa chỉ giao hàng</th>
         <th>Ngày đặt hàng</th>
+        <th>Ngày xác nhận</th>
         <th>Tổng tiền</th>
         <th>Trạng thái</th>
     </tr>
 {% endblock %}
+{% block table_body%}
+    {%for order in orders%}
+        <tr>
+            <td>{{order.id}}</td>
+            <td>{{order.user.full_name}}</td>
+            <td>{{order.address}}</td>
+            <td>{{order.created_at}}</td>
+            <td>{{order.updated_at}}</td>
+            <td>{{order.total_amount}}</td>
+            <td>{{order.status}}</td>
+            {% comment %} <td><a href="{% url 'order_detail' order.id %}">Xem chi tiết</a></td> {% endcomment %}
+        </tr>
+    {% endfor %}
+{%endblock%}
 {% block filter_fields %}
     <input type="text" name="customer_name" placeholder="Tìm theo tên khách hàng">
     <label for ="start_date" >Từ ngày</label>
@@ -20,9 +35,7 @@
     <label for="end_date" >Đến ngày</labe>
     <input type="date" name="end_date" id="end_date">
 {% endblock %}
-{% block table_body %}
-    <!-- Dữ liệu bảng sẽ được định nghĩa trong template con -->
-{%endblock%}
+
 {%block script%}
 <script>
     document.getElementById('start_date').addEventListener('change', function () {
