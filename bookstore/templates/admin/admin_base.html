@@ -19,7 +19,7 @@
         </header>
             <div class="sidebar">                
                 <ul>
-                    {% if user.is_superuser %}       <!-- Chỉ những superuser mới có quyền group permission -->         
+                    {% if can_view_groups %}       
                     <li><a href="{% url 'list_group' %}">Quản lý Nhóm </a></li> 
                     {% endif %}
 

@@ -1,0 +1,29 @@
+{% extends "admin/admin_base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="form_add">
+    <h2>Thêm Nhóm Mới</h2>
+    <form method="POST" action="{% url 'add_group' %}">
+        {% csrf_token %}
+        <div>
+            <label for="group_name">Tên Nhóm:</label>
+            <input type="text" id="group_name" name="group_name" required>
+        </div>
+
+        <div>
+            <label for="permissions">Quyền:</label>
+            <select id="permissions" name="permissions" multiple>
+                {% for permission in permissions %}
+                    <option value="{{ permission.id }}">{{ permission.name }}</option>
+                {% endfor %}
+            </select>
+            <small>Giữ Ctrl (hoặc Cmd trên Mac) để chọn nhiều quyền.</small>
+        </div>
+
+        <div>
+            <button type="submit">Thêm Nhóm</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -3,7 +3,15 @@
 
 {% block title %}Danh sách Nhóm{% endblock %}
 {% block header_title %}Quản lý Nhóm{% endblock %}
-{% comment %} {% block add_url %}{% url 'create_group' %}{% endblock %} {% endcomment %}
+
+{% block action_buttons %}
+{% if can_add_group %}
+<div class="action-buttons">
+    <a href="{% url 'add_group' %}" class="add-btn">Thêm mới</a>
+</div>
+{% endif %}
+{% endblock %}
+
 {% block filter_fields %}
     <input type="text" name="group_name" placeholder="Tìm theo tên nhóm">
 {% endblock %}

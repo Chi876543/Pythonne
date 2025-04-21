@@ -1,9 +1,16 @@
-
 {% extends 'admin/admin_base_site.html' %}
 {% load static %}
 {% block title %}Danh sách Sách{% endblock %}
 {% block header_title %}Quản lý Sách{% endblock %}
-{% comment %} {% block add_url %}{% url 'add_book' %}{% endblock %} {% endcomment %}
+
+{% block action_buttons %}
+{% if can_add_book %}
+<div class="action-buttons">
+    <a href="{% url 'add_book' %}" class="add-btn">Thêm mới</a>
+</div>
+{% endif %}
+{% endblock %}
+
 {% block filter_fields %}
 <select name="category_name" id="category_name">
     <option value="" {% if not category_name %}selected{% endif %}>Chọn danh mục</option>

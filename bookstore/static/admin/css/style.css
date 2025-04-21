@@ -116,7 +116,7 @@ header a:hover {
     padding: 10px;
     margin-top: 60px; /* Tránh bị header che */
     background-color: #1e1e2f; /* Gần đen, nền card */
-    border-radius: 8px;
+    /* border-radius: 8px; */
     transition: background-color 0.3s ease;
     height: 100%
 

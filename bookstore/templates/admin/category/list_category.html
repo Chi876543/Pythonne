@@ -2,7 +2,15 @@
 {% load static %}
 {% block title %}Danh sách Danh mục{% endblock %}
 {% block header_title %}Quản lý Danh mục{% endblock %}
-{% comment %} {% block add_url %}{% url 'create_category' %}{% endblock %} {% endcomment %}
+
+{% block action_buttons %}
+{% if can_add_category %}
+<div class="action-buttons">
+    <a href="{% url 'add_category' %}" class="add-btn">Thêm mới</a>
+</div>
+{% endif %}
+{% endblock %}
+
 {% block filter_fields %}
     <input type="text" name="category_name" placeholder="Tìm theo tên danh mục" value={{category_name|default_if_none:''}}>
 {% endblock %}
