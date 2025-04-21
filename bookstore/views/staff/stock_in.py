@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from ...models import Book, StockIn
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
+from django.http import HttpResponseBadRequest  
 
 def can_view_stockin(user):
     return user.has_perm('bookstore.can_view_stockin')
@@ -12,16 +13,19 @@ def can_add_stockin(user):
 def is_admin(user):
     return user.is_authenticated and user.is_staff
 def admin_stock_in(request):
-    # Chỉ admin mới có quyền truy cập
-    if not is_admin(request.user):
-        return redirect('admin_login')
-
-    # Xử lý logic để lấy danh sách sách từ cơ sở dữ liệu
-    # books = Book.objects.all()  # Giả sử bạn có một mô hình Book
-
+    # if not is_admin(request.user):
+    #     return redirect('admin_login')
+    book_filter = request.GET.get('book_name')
+    start_date_filter = request.GET.get('start_date')
+    end_date_filter = request.GET.get('end_date')
+    stock_ins = StockIn.objects.all()
+    books = Book.objects.all()  # Giả sử bạn có một mô hình Book
+    for stock_in in stock_ins:
+        stock_in.total_price = stock_in.price * stock_in.quantity
     return render(request, 'staff/stock_in/stock_in_list.html', {
         'user': request.user,
-        # 'books': books,  # Truyền danh sách sách vào template
+        'books': books,  # Truyền danh sách sách vào template
+        'stock_ins': stock_ins,
     })
 
 @login_required
@@ -32,12 +36,13 @@ def add_stockin(request):
         quantity = request.POST.get('quantity')
         date = request.POST.get('date')
         note = request.POST.get('note')
-
+        price = request.POST.get('price')
         stockin = StockIn(
             quantity=quantity,
             date=date,
             note=note,
-            book_id=book_id
+            book_id=book_id,
+            price =price,
         )
         stockin.save()
 

@@ -33,7 +33,6 @@
         <td>{{ user.is_superuser }}</td>
         <td>
             <a href="#" class="edit-btn">Sửa</a>
-            <a href="#" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
         </td> 
     </tr>
     {% empty %}
@@ -43,13 +42,22 @@
     {% endfor %}
 {% endblock %}
 {% block filter_fields %}   
-    {% comment %} <input name ="full_name" id="full_name" type="text" placeholder="Tên người dùng" value="{{ full_name_filter|default_if_none: '' }}"> {% endcomment %}
+    <input name ="full_name" id="full_name" type="text" placeholder="Nhập tên người dùng" value="{{ full_name_filter|default_if_none:'' }}">
     <select name="role" id="role">
         <option value=""  {% if not role_filter %}selected{% endif %}>Chọn vai trò</option>
         {% for value, label in roles %}
         <option value="{{ value }}" {% if role_filter == value %}selected{% endif %}>{{ label }}</option>
         {% endfor %}
     </select>
-    
+    <select name ="is_staff" id="">
+        <option value="" {% if not is_staff_filter %}selected{% endif %}>Is Staff</option>
+        <option value="True" {% if is_staff_filter == 'True' %}selected{% endif %}>True</option>
+        <option value="False" {% if is_staff_filter == 'False' %}selected{% endif %}>False</option>
+    </select>
+    <select name ="is_superuser" id="">
+        <option value="" {% if not is_superuser_filter %}selected{% endif %}>Is Superuser</option>
+        <option value="True" {% if is_superuser_filter == 'True' %}selected{% endif %}>True</option>
+        <option value="False" {% if is_superuser_filter == 'False' %}selected{% endif %}>False</option> 
+    </select>
     
 {% endblock %}

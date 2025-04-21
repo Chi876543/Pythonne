@@ -4,8 +4,12 @@
 {% block header_title %}Quản lý phiếu xuất{% endblock %}
 {% block add_url %}{% url 'add_stock_out' %}{% endblock %}
 {% block filter_fields %}
-    <input type="text" name="book_name" placeholder="Tìm theo tên sách">
-    <input type="date" name="export_date" placeholder="Ngày xuất">
+    <input type="text" name="book_name" placeholder="Nhập tên sách">
+    <label for ="start_date" >Từ ngày</label>
+    <input type="date" name="start_date" id="start_date">
+    <label for="end_date" >Đến ngày</labe>
+    <input type="date" name="end_date" id="end_date">
+
 {% endblock %}
 {% block table_header %}
     <tr>
@@ -45,3 +49,19 @@
     </form>
 </div>
 {% endblock%}
+{%block script%}
+<script>
+    document.getElementById('start_date').addEventListener('change', function () {
+        const startDate = this.value;
+        const endDateInput = document.getElementById('end_date');
+
+        // Cập nhật ngày tối thiểu có thể chọn cho ngày kết thúc
+        endDateInput.min = startDate;
+
+        // Nếu ngày kết thúc hiện tại < ngày bắt đầu → xóa luôn để tránh sai
+        if (endDateInput.value && endDateInput.value < startDate) {
+            endDateInput.value = '';
+        }
+    });
+</script>
+{%endblock%}
