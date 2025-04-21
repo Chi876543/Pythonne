@@ -1,0 +1,65 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+
+{% block content %}
+<div>
+    <div class="form-container">
+        <h2 style="margin-bottom: 10px">Chỉnh sửa sách</h2>
+        <form method="POST" class="form-group">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="title">Tên sách</label>
+                <input type="text" id="title" name="title" required value="{{ book.title }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="author">Tác giả</label>
+                <input type="text" id="author" name="author" required value="{{ book.author }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="price">Giá</label>
+                <input type="number" id="price" name="price" step="0.01" min="0" required value="{{ book.price }}">
+            </div>
+
+            <div class="form-group">
+                <label for="stock">Tồn</label>
+                <input type="number" id="stock" name="stock" min="0" required value="{{ book.stock }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="category">Danh mục</label>
+                <select id="category" name="category" required>
+                    {% for category in categories %}
+                    <option value="{{ category.id }}" {% if category.id == book.category.id %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="status">Trạng thái</label>
+                <select id="status" name="status" required>
+                    <option value="available" {% if book.status == 'available' %}selected{% endif %}>Available</option>
+                    <option value="unavailable" {% if book.status == 'unavailable' %}selected{% endif %}>Unavailable</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="imagePath">Chọn ảnh</label>
+                <input type="file" id="imagePath" name="imagePath" accept="" value="{{ book.imagePath}}">
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Mô tả</label>
+                <input type="text" id="description" name="description" value="{{ book.description }}">
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="save-btn">Lưu</button>
+                <a href="{% url 'list_book' %}" class="cancel-btn">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

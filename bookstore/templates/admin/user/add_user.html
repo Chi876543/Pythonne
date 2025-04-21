@@ -47,15 +47,24 @@
                 <option value="inactive">Inactive</option>
             </select>
         </div>
+        <div class="form-group">
+            <label for="group">Nhóm:</label>
+            <select id="group" name="group" multiple multiple style="height: 200px; width: 100%;">
+                {% for group in groups %}
+                    <option value="{{ group.id }}">{{ group.name }}</option>
+                {% endfor %}
+            </select>
+            <small>Giữ Ctrl (hoặc Cmd trên Mac) để chọn nhiều quyền.</small>
+        </div>
         <div class="form-group checkbox-group">
             <div class="checkbox-wrapper">
-                <label for="is_staff">Staff:</label>
+                <label for="is_staff">Staff( Quyền đăng nhập vào trang admin):</label>
                 <input type="checkbox" id="is_staff" name="is_staff">
             </div>
         </div>
         <div class="form-group checkbox-group">
             <div class="checkbox-wrapper">
-                <label for="is_superuser">Superuser:</label>
+                <label for="is_superuser">Superuser( Có tất cả các quyền ):</label>
                 <input type="checkbox" id="is_superuser" name="is_superuser">
             </div>
         </div>

@@ -48,7 +48,7 @@
         <td>{{ book.category.name }}</td>
         <td>{{ book.status }}</td>
         <td>
-            <a href="#" class="edit-btn">Sửa</a>
+            <a href="{% url 'change_book' book.id %}" class="edit-btn">Sửa</a>
         </td> 
     </tr>
     {% empty %}

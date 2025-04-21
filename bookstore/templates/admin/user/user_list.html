@@ -32,7 +32,7 @@
         <td>{{ user.is_staff }}</td>
         <td>{{ user.is_superuser }}</td>
         <td>
-            <a href="#" class="edit-btn">Sửa</a>
+            <a href="{% url 'change_user' user.id %}" class="edit-btn">Sửa</a>
         </td> 
     </tr>
     {% empty %}

@@ -1,0 +1,78 @@
+{% extends "admin/admin_base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="form-container">
+    <h2 style="margin-bottom: 10px">Sửa Người Dùng</h2>
+    <form method="POST" action="{% url 'change_user' user.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Tên Người Dùng:</label>
+            <input type="text" id="username" name="username" required value="{{user.username}}">
+        </div>
+        <div class="form-group">
+            <label for="password">Mật Khẩu:</label>
+            <input type="password" id="password" name="password" placeholder="Nhập mật khẩu mới (để trống nếu không thay đổi)">
+        </div>
+        <div class="form-group">
+            <label for="full_name">Full name:</label>
+            <input type="text" id="full_name" name="full_name" required value="{{user.full_name}}">
+        </div>
+        <div class="form-group">
+            <label for="role">Vai Trò:</label>
+            <select id="role" name="role" required>
+                <option value="customer" {% if book.role == 'customer' %}selected{% endif %}>Khách hàng</option>
+                <option value="staff" {% if book.role == 'staff' %}selected{% endif %}>Nhân Viên</option>
+                <option value="manager" {% if book.role == 'manager' %}selected{% endif %}>Quản Trị Viên</option>
+                <option value="admin" {% if book.role == 'admin' %}selected{% endif %}>Admin</option>
+            </select>
+        </div>
+        <div class="form-group"> 
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required value="{{user.email}}">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" required value="{{user.phone}}">
+        </div>
+        <div class="form-group">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required value="{{user.address}}">
+        </div>
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select id="status" name="status" required>
+                <option value="active" {% if book.status == 'active' %}selected{% endif %}>Active</option>
+                <option value="inactive" {% if book.status == 'inactive' %}selected{% endif %}>Inactive</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="group">Nhóm:</label>
+            <select id="group" name="group" multiple required style="height: 200px; width: 100%;">
+                {% for group in groups %}
+                    <option value="{{ group.id }}" {% if group.id in user_group_ids %}selected{% endif %}>{{ group.name }}</option>
+                {% endfor %}
+            </select>
+            <small>Giữ Ctrl (hoặc Cmd trên Mac) để chọn nhiều quyền.</small>
+        </div>
+        <div class="form-group checkbox-group">
+            <div class="checkbox-wrapper">
+                <label for="is_staff">Staff( Quyền đăng nhập vào trang admin):</label>
+                <input type="checkbox" id="is_staff" name="is_staff" {% if user.is_staff %}checked{% endif %}>
+            </div>
+        </div>
+        <div class="form-group checkbox-group">
+            <div class="checkbox-wrapper">
+                <label for="is_superuser">Superuser( Có tất cả các quyền ):</label>
+                <input type="checkbox" id="is_superuser" name="is_superuser" {% if user.is_superuser %}checked{% endif %}>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="save-btn">Lưu</button>
+            <a href="{% url 'list_user' %}" class="cancel-btn">Hủy</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

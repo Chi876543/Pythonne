@@ -1,17 +1,24 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from ...models import Book, Category
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
-def can_view_group(user):
-    return user.has_perm('bookstore.can_view_group')
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
+from django import forms
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title', 'author', 'price', 'stock', 'category', 'status', 'imagePath', 'description']
 
 def can_add_book(user):
     return user.has_perm('bookstore.can_add_book')
 
 def can_view_books(user):
     return user.has_perm('bookstore.can_view_books')
+
+def can_change_book(user):
+    return user.has_perm('bookstore.can_change_book')
 
 @login_required
 @user_passes_test(can_view_books)
@@ -69,3 +76,19 @@ def add_book(request):
         return redirect('list_book') 
     categories = Category.objects.all()
     return render(request, 'admin/book/add_book.html', {'categories': categories})
+
+@login_required
+@user_passes_test(can_change_book)
+def change_book(request, book_id):
+    # Lấy sách theo ID
+    book = get_object_or_404(Book, id=book_id)
+    categories = Category.objects.all()
+    if request.method == 'POST':
+        form = BookForm(request.POST, request.FILES, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('list_book')
+    else:
+        form = BookForm(instance=book)
+
+    return render(request, 'admin/book/change_book.html', {'form': form, 'book': book, 'categories': categories})

@@ -32,12 +32,12 @@ urlpatterns = [
     # Quản lý người dùng
     path('admin/list_user', user_admin.admin_list_users, name = 'list_user'),
     path('admin/list_user/add', user_admin.add_user, name = 'add_user'),
-    #path('admin/list_user/chage', user_admin.change_user, name = 'change_user'),
+    path('admin/list_user/change/<int:user_id>/', user_admin.change_user, name = 'change_user'),
 
     # Quản lý sách
     path('admin/list_book', book_admin.admin_list_books, name = 'list_book'),
     path('admin/list_book/add', book_admin.add_book, name = 'add_book'),
-    #path('admin/list_book/change', book_admin.change_book, name = 'change_book'),
+    path('admin/list_book/change/<int:book_id>/', book_admin.change_book, name='change_book'),
 
     # Quản lý danh mục
     path('admin/list_category', category_admin.admin_list_category, name = 'list_category'),
