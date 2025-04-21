@@ -23,7 +23,17 @@
             <td>{{order.created_at}}</td>
             <td>{{order.updated_at}}</td>
             <td>{{order.total_amount}}</td>
-            <td>{{order.status}}</td>
+            <td>
+                <form method="POST" action="{% url 'update_order_status' order.id %}">
+                    {% csrf_token %}
+                    <select name="status" onchange="this.form.submit()">
+                        <option value="Pending" {% if order.status == "Pending" %}selected{% endif %}>Pending</option>
+                        <option value="Confirmed" {% if order.status == "Confirmed" %}selected{% endif %}>Confirmed</option>
+                        <option value="Cancelled" {% if order.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+                        <option value="Completed" {% if order.status == "Completed" %}selected{% endif %}>Completed</option>
+                    </select>
+                </form>
+            </td>
             {% comment %} <td><a href="{% url 'order_detail' order.id %}">Xem chi tiết</a></td> {% endcomment %}
         </tr>
     {% endfor %}
@@ -50,6 +60,9 @@
             endDateInput.value = '';
         }
     });
+    {% for message in messages %}
+            alert("{{ message|escapejs }}");
+    {% endfor %}
 </script>
 {%endblock%}
 

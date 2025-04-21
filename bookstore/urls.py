@@ -46,6 +46,7 @@ urlpatterns = [
 
     # Quản lý đơn hàng
     path('admin/list_order', order_status. admin_list_orders, name = 'list_order'),
+    path('admin/list_order/<int:order_id>/', order_status.update_order_status, name = 'update_order_status'),
     #path('admin/list_order/change', order_status.change_book, name = 'change_book'),
 
     # Quản lý phiếu nhập
