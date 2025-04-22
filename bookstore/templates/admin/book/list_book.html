@@ -21,6 +21,7 @@
     {% endfor %}
 </select>
 <input type="text" name="search_book" id="search_book" placeholder="Nhập thông tin tìm kiếm" value="{{ search_book|default_if_none:'' }}">
+<button type="submit" class="filter-btn">Lọc</button>
 {% endblock %}
 {% block table_header %}
     <tr>

@@ -1,0 +1,29 @@
+{% extends 'admin/admin_base_site.html'%}
+{% load static %}
+{% block action_buttons %}
+<div class="action-buttons">
+    <a href="{% url 'list_order' %}" class="cancel-btn">Quay lại trang hóa đơn</a>
+</div>
+{% endblock %}
+{%block table_header%}
+<tr>
+    <th>ID Order</th>
+    <th>Tên sách</th>
+    <th>Số lượng</th>
+    <th>Giá thành</th>
+    <th>Tổng tiền</th>
+<tr>
+{% endblock %}
+{% block table_body%}
+    {% for item in order_detail %}
+    <tr>
+        <td>{{ item.order.id }}</td>
+        <td>{{ item.book.title }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.price|floatformat:0 }}</td>
+        <td>{{ item.total_price|floatformat:0 }}</td>
+    </tr>
+    {% endfor %}
+{% endblock %}
+
+    

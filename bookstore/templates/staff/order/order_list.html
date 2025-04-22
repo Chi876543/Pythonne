@@ -12,6 +12,7 @@
         <th>Ngày xác nhận</th>
         <th>Tổng tiền</th>
         <th>Trạng thái</th>
+        <th>Chi tiết hóa đơn</th>
     </tr>
 {% endblock %}
 {% block table_body%}
@@ -24,9 +25,9 @@
             <td>{{order.updated_at}}</td>
             <td>{{order.total_amount}}</td>
             <td>
-                <form method="POST" action="{% url 'update_order_status' order.id %}">
+                <form method="POST" action="{% url 'update_order_status' order.id %}" class="filter-form">
                     {% csrf_token %}
-                    <select name="status" onchange="this.form.submit()">
+                    <select name="status" onchange="this.form.submit()" >
                         <option value="Pending" {% if order.status == "Pending" %}selected{% endif %}>Pending</option>
                         <option value="Confirmed" {% if order.status == "Confirmed" %}selected{% endif %}>Confirmed</option>
                         <option value="Cancelled" {% if order.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
@@ -34,16 +35,25 @@
                     </select>
                 </form>
             </td>
-            {% comment %} <td><a href="{% url 'order_detail' order.id %}">Xem chi tiết</a></td> {% endcomment %}
+            <td><a href="{% url 'order_detail' order.id%}" style ="text-decoration: none;   color: #fff;  background-color: #00bcd4; padding: 3px 6px;">Xem chi tiết</a></td>
         </tr>
     {% endfor %}
 {%endblock%}
 {% block filter_fields %}
-    <input type="text" name="customer_name" placeholder="Tìm theo tên khách hàng">
-    <label for ="start_date" >Từ ngày</label>
-    <input type="date" name="start_date" id="start_date">
+    <input type="text" name="customer_name" placeholder="Tìm theo tên khách hàng" value="{{customer_filter|default_if_none:''}}">
+    <input type="text" name="address" placeholder="Tìm theo địa chỉ giao hàng" value="{{address_filter|default_if_none:''}}">
+    <select name="status" id="status">
+        <option value="" {% if not status_filter %}selected{% endif %}>Chọn trạng thái</option>
+        <option value="Pending" {% if status_filter == "Pending" %}selected{% endif %}>Pending</option>
+        <option value="Confirmed" {% if status_filter == "Confirmed" %}selected{% endif %}>Confirmed</option>
+        <option value="Cancelled" {% if status_filter == "Cancelled" %}selected{% endif %}>Cancelled</option>
+        <option value="Completed" {% if status_filter == "Completed" %}selected{% endif %}>Completed</option>
+    </select>
+    <label for ="start_date" >Ngày đặt hàng từ</label>
+    <input type="date" name="start_date" id="start_date" value={{ start_date_filter|default_if_none:'' }}>
     <label for="end_date" >Đến ngày</labe>
-    <input type="date" name="end_date" id="end_date">
+    <input type="date" name="end_date" id="end_date" value={{ end_date_filter|default_if_none:'' }}>
+    <button type="submit" class="filter-btn">Lọc</button>
 {% endblock %}
 
 {%block script%}

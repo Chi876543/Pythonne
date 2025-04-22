@@ -13,6 +13,7 @@
 
 {% block filter_fields %}
     <input type="text" name="category_name" placeholder="Nhập tên danh mục" value={{category_name|default_if_none:''}}>
+    <button type="submit" class="filter-btn">Lọc</button>
 {% endblock %}
 {% block table_header %}
     <tr>

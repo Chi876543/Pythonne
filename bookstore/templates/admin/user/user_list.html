@@ -31,8 +31,8 @@
         <td>{{ user.username }}</td>
         <td>{{ user.get_role_display }}</td>
         <td>{{ user.get_status_display }}</td>
-        <td>{{ user.is_staff }}</td>
-        <td>{{ user.is_superuser }}</td>
+        <td>{% if user.is_staff %}✅{% else %}❌{% endif %}</td>
+        <td>{% if user.is_superuser %}✅{% else %}❌{% endif %}</td>
         <td>
             <a href="{% url 'change_user' user.id %}" class="edit-btn">Sửa</a>
         </td> 
@@ -61,5 +61,5 @@
         <option value="True" {% if is_superuser_filter == 'True' %}selected{% endif %}>True</option>
         <option value="False" {% if is_superuser_filter == 'False' %}selected{% endif %}>False</option> 
     </select>
-    
+    <button type="submit" class="filter-btn">Lọc</button>
 {% endblock %}
