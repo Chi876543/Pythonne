@@ -57,16 +57,24 @@ def update_order_status(request, order_id):
 
         if new_status == "Completed" and current_status != "Confirmed":
             messages.warning(request, "⚠️ Chỉ được chuyển sang Completed nếu đơn hàng đang ở trạng thái Confirmed.")
-            return redirect('list_order')
+            return redirect('list_order')   
 
-        order.status = new_status
-        order.save()
-        for detail in order.orderdetail_set.all():
-            if new_status == "Completed":  # Chỉ giảm stock khi chuyển sang trạng thái Completed
+        if new_status == "Confirmed":
+            # Kiểm tra tồn kho trước khi xác nhận
+            for detail in order.orderdetail_set.all():
+                if detail.book.stock < detail.quantity:
+                    messages.error(
+                        request, 
+                        f"❌ Sách '{detail.book.title}' không đủ tồn kho. Có: {detail.book.stock}, cần: {detail.quantity}"
+                    )
+                    return redirect('list_order')
+
+            # Trừ tồn kho
+            for detail in order.orderdetail_set.all():
                 detail.book.stock -= detail.quantity
                 detail.book.save()
 
-        if new_status == "Confirmed":
+            # Tạo StockOut nếu chưa tồn tại
             if not StockOut.objects.filter(order=order).exists():
                 for detail in order.orderdetail_set.all():
                     StockOut.objects.create(
@@ -77,10 +85,12 @@ def update_order_status(request, order_id):
                         note=f"Xuất kho cho đơn hàng #{order.id}"
                     )
 
+        order.status = new_status
+        order.save()
+
         messages.success(request, f"✅ Đã cập nhật trạng thái đơn hàng #{order.id} thành '{new_status}'")
         return redirect('list_order')
 
-        
     return render(request, 'staff/order/order_list.html')
 @login_required
 def admin_order_detail(request, order_id):

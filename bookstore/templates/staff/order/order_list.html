@@ -27,11 +27,20 @@
             <td>
                 <form method="POST" action="{% url 'update_order_status' order.id %}" class="filter-form">
                     {% csrf_token %}
-                    <select name="status" onchange="this.form.submit()" >
-                        <option value="Pending" {% if order.status == "Pending" %}selected{% endif %}>Pending</option>
-                        <option value="Confirmed" {% if order.status == "Confirmed" %}selected{% endif %}>Confirmed</option>
-                        <option value="Cancelled" {% if order.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
-                        <option value="Completed" {% if order.status == "Completed" %}selected{% endif %}>Completed</option>
+                    <select name="status" onchange="confirmChange(this)" {% if order.status == 'Cancelled' or order.status == 'Completed' %}disabled{% endif %} >
+                        
+                        <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %} {% if order.status == 'Confirmed' %}disabled{% endif %}>
+                            Pending
+                        </option>
+                        <option value="Confirmed" {% if order.status == 'Confirmed' %}selected{% endif %}>
+                            Confirmed
+                        </option>
+                        <option value="Cancelled" {% if order.status == 'Cancelled' %}selected{% endif %} {% if order.status == 'Confirmed' %}disabled{% endif %}>
+                            Cancelled
+                        </option>
+                        <option value="Completed" {% if order.status == 'Completed' %}selected{% endif %}>
+                            Completed
+                        </option>
                     </select>
                 </form>
             </td>
@@ -73,6 +82,23 @@
     {% for message in messages %}
             alert("{{ message|escapejs }}");
     {% endfor %}
+    function confirmChange(selectElement) {
+        // Lưu chỉ số ban đầu của option được chọn
+        const originalIndex = selectElement.selectedIndex;
+        const selectedOption = selectElement.options[selectElement.selectedIndex].text;
+        
+        // Hiển thị hộp thoại xác nhận
+        const confirmed = confirm(`Bạn có chắc chắn muốn chuyển trạng thái đơn hàng sang "${selectedOption}" không?`);
+
+        if (confirmed) {
+            // Nếu xác nhận, submit form
+            selectElement.form.submit();
+        } else {
+            // Nếu hủy, khôi phục trạng thái ban đầu
+            selectElement.selectedIndex = originalIndex;
+            // tạo 1 sự kiện load lại trnagtrnag
+        }
+    }
 </script>
 {%endblock%}
 

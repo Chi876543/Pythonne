@@ -63,3 +63,10 @@
     </select>
     <button type="submit" class="filter-btn">Lọc</button>
 {% endblock %}
+{% block script%}
+<script>
+{% for message in messages %}
+    alert("{{ message|escapejs }}");
+{% endfor %}
+</script>
+{%endblock%}

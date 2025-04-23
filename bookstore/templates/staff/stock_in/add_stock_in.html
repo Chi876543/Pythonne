@@ -43,3 +43,10 @@
     </form>
 </div>
 {% endblock %}
+{% block script%}
+<script>
+{% for message in messages %}
+    alert("{{ message|escapejs }}");
+{% endfor %}
+</script>
+{%endblock%}
