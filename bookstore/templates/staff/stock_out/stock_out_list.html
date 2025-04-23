@@ -50,12 +50,8 @@
             endDateInput.value = '';
         }
     });
-</script>
-{%endblock%}
-{% block script%}
-<script>
-{% for message in messages %}
-    alert("{{ message|escapejs }}");
-{% endfor %}
+    {% for message in messages %}
+        alert("{{ message|escapejs }}");
+    {% endfor %}
 </script>
 {%endblock%}
