@@ -81,7 +81,7 @@ def update_order_status(request, order_id):
                         order=order,
                         book=detail.book,
                         quantity=detail.quantity,
-                        date=timezone.now(),
+                        date=order.updated_at,
                         note=f"Xuất kho cho đơn hàng #{order.id}"
                     )
 
