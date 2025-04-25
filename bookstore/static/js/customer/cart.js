@@ -1,46 +1,45 @@
-const testCart = {
-    "user_id": 1,
-    "address": "123 đường ABC",
-    "cart": [
-        {
-            "book_id": 5,
-            "quantity": 2,
-            "unitPrice": 50000
-        },
-        {
-            "book_id": 2,
-            "quantity": 1,
-            "unitPrice": 75000
-        },
-        {
-            "book_id": 3,
-            "quantity": 1,
-            "unitPrice": 75000
-        },
-        {
-            "book_id": 4,
-            "quantity": 1,
-            "unitPrice": 75000
-        }
-    ]
-}
-const testUser = {
-    id: "1",
-    username: "nguyenvana",
-    password: "12345678",
-    role: "customer",
-    full_name: "Nguyễn Văn A",
-    address: "123 Đường ABC, Quận 1, TP.HCM",
-    email: "nguyenvana@example.com",
-    phone: "0901234567",
-    status: "active"
-};
-localStorage.setItem('cart', JSON.stringify(testCart))
+// const testCart = {
+//     "user_id": 1,
+//     "address": "123 đường ABC",
+//     "cart": [
+//         {
+//             "book_id": 5,
+//             "quantity": 2,
+//             "price": 50000
+//         },
+//         {
+//             "book_id": 2,
+//             "quantity": 1,
+//             "price": 75000
+//         },
+//         {
+//             "book_id": 3,
+//             "quantity": 1,
+//             "price": 75000
+//         },
+//         {
+//             "book_id": 4,
+//             "quantity": 1,
+//             "price": 75000
+//         }
+//     ]
+// }
+// const testUser = {
+//     id: "1",
+//     username: "nguyenvana",
+//     password: "12345678",
+//     role: "customer",
+//     full_name: "Nguyễn Văn A",
+//     address: "123 Đường ABC, Quận 1, TP.HCM",
+//     email: "nguyenvana@example.com",
+//     phone: "0901234567",
+//     status: "active"
+// };
+// localStorage.setItem('cart', JSON.stringify(testCart))
 const cart = JSON.parse(localStorage.getItem('cart')) || ''
 const user = JSON.parse(localStorage.getItem('user')) || ''
-
+console.log(cart)
 let order
-
 
 let books = []
 
@@ -69,7 +68,7 @@ function formatPrice(price) {
 function renderCart() {
     const tbody = document.getElementById('cart-items');
     tbody.innerHTML = ''; // Xóa nội dung cũ
-    testCart.cart.forEach(item => {
+    cart.items.forEach(item => {
         books.forEach(book => {
             if (item.book_id == book.id) {
                 const row = document.createElement('tr');
@@ -77,7 +76,7 @@ function renderCart() {
                     <td class="checkbox"><input type="checkbox" class="item-checkbox"></td>
                     <td class="product">
                         <div class="product-info">
-                            <img src="${book.imagePath}" alt="${item.book_title}">
+                            <img src="${book.imagePath}" alt="${book.title}">
                             <div>
                                 <p>${book.title}</p>
                                 <p class="description">ID: ${book.id}</p>
@@ -85,13 +84,13 @@ function renderCart() {
                             </div>
                         </div>
                     </td>
-                    <td class="price" data-price="${item.unitPrice}">${formatPrice(item.unitPrice)}</td>
+                    <td class="price" data-price="${item.price}">${formatPrice(item.price)}</td>
                     <td class="quantity">
                         <button onclick="changeQuantity(this, -1)">-</button>
                         <input type="number" value="${item.quantity}" min="1" oninput="updateQuantity(this)">
                         <button onclick="changeQuantity(this, 1)">+</button>
                     </td>
-                    <td class="total">${formatPrice(item.unitPrice * item.quantity)}</td>
+                    <td class="total">${formatPrice(item.price * item.quantity)}</td>
                 `;
                 tbody.appendChild(row);
             }
@@ -172,7 +171,7 @@ function openCheckoutModal() {
     }
     const modal = document.getElementById('checkout-modal');
     const addressInput = document.getElementById('address');
-    addressInput.value = testCart.address;
+    addressInput.value = user.address;
     modal.style.display = 'flex';
 }
 
@@ -244,7 +243,7 @@ async function placeOrder() {
 
     // Tạo dữ liệu gửi đến API
     const apiData = {
-        user_id: testCart.user_id,
+        user_id: user.id,
         address: address,
         cart: []
     };
@@ -260,7 +259,7 @@ async function placeOrder() {
         apiData.cart.push({
             book_id: book_id,
             quantity: quantity,
-            unitPrice: price
+            price: price
         });
     });
 

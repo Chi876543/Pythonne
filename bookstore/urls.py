@@ -16,7 +16,13 @@ from .views.manager import report
 
 urlpatterns = [
     path('', home.home, name='home'),
-    path('books/', home.books, name='books'),
+    path('book/<int:book_id>/', home.book_detail, name='book_detail'),
+    path('update_item/', home.updateItem, name='update-item'),
+    path('api/login/', home.login, name='api_login'),
+    path('api/logout/', home.logout, name='logout'),
+    path('api/register/', home.register, name='api_register'),
+    path('api/check_login_status/', home.check_login_status, name='check_login_status'),
+
     path('profile/', profile.profile, name = 'profile'),
     path('cart/', profile.cart, name = 'cart'),
 

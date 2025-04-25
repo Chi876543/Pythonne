@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .product-image {
+        max-height: 600px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 100%;
+    }
+    .btn-primary {
+        background-color: #60A5FA;
+        border-color: #60A5FA;
+    }
+    .btn-primary:hover {
+        background-color: #3B82F6;
+        border-color: #3B82F6;
+    }
+    .btn-outline-secondary {
+        border-color: #4B5563;
+        color: #4B5563;
+    }
+    .btn-outline-secondary:hover {
+        background-color: #F3F4F6;
+        border-color: #4B5563;
+        color: #4B5563;
+    }
+    @media (max-width: 768px) {
+        .product-image {
+            max-height: 450px;
+        }
+        .text-4xl {
+            font-size: 2rem; /* ~32px */
+        }
+        .h3 {
+            font-size: 1.5rem; /* ~24px */
+        }
+        .text-lg {
+            font-size: 1rem; /* ~16px */
+        }
+        .btn-lg {
+            padding: 0.5rem 1.5rem;
+            font-size: 1rem;
+        }
+    }
+</style>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <div class="container mt-32 max-w-6xl mx-auto">
+        <div class="row bg-white rounded-lg shadow-md p-8">
+            <!-- Book Image -->
+            <div class="col-md-5 mb-4 d-flex justify-content-center">
+                <img src="{{ book.imagePath.url|default:'/static/img/default_book.jpg' }}" alt="{{ book.title }}" class="img-fluid rounded product-image transition-transform duration-300 hover:scale-105 mx-auto">
+            </div>
+
+            <!-- Book Details -->
+            <div class="col-md-7">
+                <div class="max-w-lg">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">{{ book.title }}</h2>
+                    <p class="text-lg text-gray-600 mb-4">Mã sách: {{ book.id }}</p>
+                    <div class="mb-4">
+                        <span class="h3 font-semibold text-blue-600 me-2">{{ book.price }} VNĐ</span>
+                        {% if book.price > 100000 %}
+                            <span class="text-lg text-gray-500"><s>{{ book.price|add:50000 }} VNĐ</s></span>
+                        {% endif %}
+                    </div>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">{{ book.description|default:'Chưa có mô tả' }}</p>
+                    <div class="mb-6">
+                        <p class="text-lg text-gray-700"><strong>Tác giả:</strong> {{ book.author|default:'Không rõ' }}</p>
+                        <p class="text-lg text-gray-700"><strong>Danh mục:</strong> {{ book.category.name|default:'Không có danh mục' }}</p>
+                        <p class="text-lg text-gray-700"><strong>Tồn kho:</strong> {{ book.stock }}</p>
+                        <p class="text-lg text-gray-700"><strong>Trạng thái:</strong> {{ book.status }}</p>
+                    </div>
+                    <div class="mb-6">
+                        <label for="quantity" class="form-label text-lg text-gray-700">Số lượng:</label>
+                        <input type="number" class="form-control w-24 p-2 border-gray-300 rounded-lg" id="quantity" value="1" min="1" max="{{ book.stock }}">
+                    </div>
+                    <div class="flex gap-4">
+                        <button class="btn btn-primary btn-lg text-white px-6 py-3 rounded-lg add-to-cart transition-colors duration-300 hover:bg-blue-600" 
+                                data-book-id="{{ book.id }}" 
+                                data-book-title="{{ book.title }}"
+                                data-book-price="{{ book.price }}">
+                            <i class="bi bi-cart-plus me-2"></i> Thêm vào giỏ hàng
+                        </button>
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-lg px-6 py-3 rounded-lg transition-colors duration-300 hover:bg-gray-100">
+                            <i class="bi bi-arrow-left me-2"></i> Quay lại
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add to cart
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', () => {
+                const user = JSON.parse(localStorage.getItem('user') || '{}');
+                if (!user || !user.id) {
+                    alert('Vui lòng đăng nhập để thêm vào giỏ hàng!');
+                    const loginModal = document.getElementById('login-modal');
+                    if (loginModal) loginModal.classList.remove('hidden');
+                    return;
+                }
+
+                const bookId = button.getAttribute('data-book-id');
+                const bookTitle = button.getAttribute('data-book-title');
+                const bookPrice = parseFloat(button.getAttribute('data-book-price'));
+                const quantity = parseInt(document.getElementById('quantity').value);
+
+                let cart = JSON.parse(localStorage.getItem('cart')) || { user_id: user.id, items: [] };
+                const existingItem = cart.items.find(item => item.book_id === bookId);
+
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.items.push({ book_id: bookId, title: bookTitle, price: bookPrice, quantity: quantity });
+                }
+
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`Đã thêm "${bookTitle}" (x${quantity}) vào giỏ hàng!`);
+            });
+        });
+    </script>
+
+    {% endblock %}

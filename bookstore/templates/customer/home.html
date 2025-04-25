@@ -1,33 +1,162 @@
-<!-- templates/customer/home.html -->
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Trang chủ - Cửa hàng sách{% endblock %}
 
 {% block content %}
-    <h1>Chào mừng đến với Cửa hàng sách</h1>
-
-    <!-- Form tìm kiếm -->
-    <div class="mb-4">
-        <div class="input-group">
-            <input type="text" id="search-input" class="form-control" placeholder="Tìm kiếm sách...">
-            <button id="search-button" class="btn btn-primary">Tìm kiếm</button>
+    <!-- Banner Slider -->
+    <div class="container mx-auto py-8 pt-20">
+        <div id="bannerCarousel" class="banner-carousel carousel carousel-dark slide" data-bs-ride="carousel">
+            <!-- Carousel Indicators -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <!-- Carousel Items -->
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="5000">
+                    <img src="{% static 'img/ChatGPT Image Apr 18, 2025, 11_44_08 PM.png' %}" class="d-block w-100" alt="Banner 1">
+                   
+                </div>
+                <div class="carousel-item" data-bs-interval="5000">
+                    <img src="{% static 'img/ChatGPT Image Apr 18, 2025, 11_44_33 PM.png' %}" class="d-block w-100" alt="Banner 2">
+                   
+                </div>
+                <div class="carousel-item" data-bs-interval="5000">
+                    <img src="{% static 'img/ChatGPT Image Apr 19, 2025, 12_06_07 AM.png' %}" class="d-block w-100" alt="Banner 3">
+                   
+                </div>
+            </div>
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
     </div>
-
-    <!-- Danh sách sách -->
-    <div id="book-list" class="row">
-        <!-- Danh sách sách sẽ được render động bằng JavaScript -->
+    <!-- Best Sellers Section -->
+    <div class="container mx-auto py-8">
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-2xl font-bold text-white bg-blue-500 px-4 py-2 rounded-t-lg w-fit">Sách Bán Chạy Nhất</h2>
+            <div class="relative bg-gray-50 p-4 rounded-b-lg">
+                <div class="carousel flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory">
+                    {% for book in best_sellers %}
+                        <div class="flex-none w-48 bg-white p-4 rounded-lg shadow-sm border-2 border-blue-200 snap-center relative hover:scale-105 transition-transform duration-300 hover:shadow-md">
+                            <span class="absolute top-2 left-2 bg-amber-400 text-white text-xs font-bold px-2 py-1 rounded">Hot</span>
+                            <a href="{% url 'book_detail' book.id %}">
+                                <img src="{{ book.imagePath.url|default:'/static/img/default_book.jpg' }}" alt="{{ book.title }}" class="w-full h-32 object-cover rounded">
+                                <h3 class="text-md font-semibold mt-2 line-clamp-2 text-gray-800">{{ book.title }}</h3>
+                                <p class="text-gray-600 text-sm mt-1">Tác giả: {{ book.author|default:'Không rõ' }}</p>
+                                <p class="text-gray-600 text-sm mt-1">Giá: {{ book.price }} VNĐ</p>
+                                <p class="text-gray-600 text-sm mt-1">Tồn kho: {{ book.stock }}</p>
+                            </a>
+                        </div>
+                    {% empty %}
+                        <p class="text-center text-gray-600">Không có sách bán chạy nào.</p>
+                    {% endfor %}
+                </div>
+                <!-- Navigation Buttons -->
+                <button class="carousel-left absolute left-0 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 hidden md:block">←</button>
+                <button class="carousel-right absolute right-0 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 hidden md:block">→</button>
+            </div>
+        </div>
     </div>
-
-    <!-- Phân trang -->
-    <nav aria-label="Page navigation">
-        <ul id="pagination" class="pagination justify-content-center">
-            <!-- Phân trang sẽ được render động bằng JavaScript -->
-        </ul>
-    </nav>
+    <!-- Main Book List Section -->
+    <div class="container mx-auto py-8">
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-2xl font-bold text-white bg-blue-500 px-4 py-2 rounded-t-lg w-fit">Danh Sách Sách</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {% for book in books %}
+                    <div class="bg-white p-4 rounded-lg shadow-sm border-2 border-blue-200 relative hover:scale-105 transition-transform duration-300 hover:shadow-md">
+                        {% if book.is_new %}
+                            <span class="absolute top-2 left-2 bg-emerald-400 text-white text-xs font-bold px-2 py-1 rounded">New</span>
+                        {% endif %}
+                        <a href="{% url 'book_detail' book.id %}">
+                            <img src="{{ book.imagePath.url|default:'/static/img/default_book.jpg' }}" alt="{{ book.title }}" class="w-full h-56 object-cover rounded">
+                            <h3 class="text-lg font-semibold mt-4 line-clamp-2 text-gray-800">{{ book.title }}</h3>
+                        </a>
+                        <p class="text-gray-600 mt-2">Tác giả: {{ book.author|default:'Không rõ' }}</p>
+                        <p class="text-gray-600 mt-1">Giá: {{ book.price }} VNĐ</p>
+                        <p class="text-gray-600 mt-1">Tồn kho: {{ book.stock }}</p>
+                        <div class="mt-4 flex gap-2">
+                            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 add-to-cart"
+                                    data-book-id="{{ book.id }}"
+                                    data-book-title="{{ book.title }}"
+                                    data-book-price="{{ book.price }}">Thêm vào giỏ hàng</button>
+                            <a href="{% url 'book_detail' book.id %}" class="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600">Xem chi tiết</a>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="col-span-full text-center text-gray-600">Không tìm thấy sách nào.</p>
+                {% endfor %}
+            </div>
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+                <div class="mt-8 flex justify-center">
+                    <nav class="inline-flex">
+                        {% if page_obj.has_previous %}
+                            <a href="{% url 'home' %}?page={{ page_obj.previous_page_number }}{% if category_id %}&category={{ category_id }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if query %}&q={{ query }}{% endif %}" class="px-3 py-2 bg-blue-500 text-white rounded-l hover:bg-blue-600">Trước</a>
+                        {% endif %}
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <span class="px-3 py-2 bg-blue-600 text-white">{{ num }}</span>
+                            {% else %}
+                                <a href="{% url 'home' %}?page={{ num }}{% if category_id %}&category={{ category_id }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if query %}&q={{ query }}{% endif %}" class="px-3 py-2 bg-blue-500 text-white hover:bg-blue-600">{{ num }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <a href="{% url 'home' %}?page={{ page_obj.next_page_number }}{% if category_id %}&category={{ category_id }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if query %}&q={{ query }}{% endif %}" class="px-3 py-2 bg-blue-500 text-white rounded-r hover:bg-blue-600">Sau</a>
+                        {% endif %}
+                    </nav>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        // Add to cart
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', () => {
+                const user = JSON.parse(localStorage.getItem('user'));
+                if (!user) {
+                    alert('Vui lòng đăng nhập để thêm vào giỏ hàng!');
+                    document.getElementById('login-modal').classList.remove('hidden');
+                    return;
+                }
+                const bookId = button.getAttribute('data-book-id');
+                const bookTitle = button.getAttribute('data-book-title');
+                const bookPrice = parseFloat(button.getAttribute('data-book-price'));
+                let cart = JSON.parse(localStorage.getItem('cart')) || { user_id: user.id, items: [] };
+                const existingItem = cart.items.find(item => item.book_id === bookId);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.items.push({ book_id: bookId, title: bookTitle, price: bookPrice, quantity: 1 });
+                }
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert('Đã thêm "' + bookTitle + '" vào giỏ hàng!');
+            });
+        });
+        // Carousel navigation
+        const carousel = document.querySelector('.carousel');
+        const leftBtn = document.querySelector('.carousel-left');
+        const rightBtn = document.querySelector('.carousel-right');
+        leftBtn.addEventListener('click', () => {
+            carousel.scrollBy({ left: -200, behavior: 'smooth' });
+        });
+        rightBtn.addEventListener('click', () => {
+            carousel.scrollBy({ left: 200, behavior: 'smooth' });
+        });
+        carousel.addEventListener('scroll', () => {
+            leftBtn.style.display = carousel.scrollLeft > 0 ? 'block' : 'none';
+            rightBtn.style.display = carousel.scrollLeft < (carousel.scrollWidth - carousel.clientWidth) ? 'block' : 'none';
+        });
+        // Initial state
+        leftBtn.style.display = 'none';
+        rightBtn.style.display = carousel.scrollWidth > carousel.clientWidth ? 'block' : 'none';
+    </script>
 {% endblock %}
 
-{% block extra_js %}
-    <script src="{% static 'js/customer/home.js' %}"></script>
-{% endblock %}

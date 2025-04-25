@@ -33,6 +33,8 @@ def create_order(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
+            print(data)
+    
             user_id = data.get('user_id')
             address = data.get('address')
             cart = data.get('cart', [])
@@ -47,7 +49,7 @@ def create_order(request):
 
             total = 0
             for item in cart:
-                total += float(item.get('unitPrice'))
+                total += float(item.get('price'))
 
             # Tạo Order
             order = Order.objects.create(
@@ -62,7 +64,7 @@ def create_order(request):
             for item in cart:
                 book_id = item.get('book_id')
                 quantity = int(item.get('quantity'))
-                unit_price = float(item.get('unitPrice'))
+                unit_price = float(item.get('price'))
 
                 try:
                     book = Book.objects.get(id=book_id)

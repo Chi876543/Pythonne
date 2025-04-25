@@ -1,15 +1,3 @@
-const testUser = {
-  id: "1",
-  username: "nguyenvana",
-  password: "12345678",
-  role: "customer",
-  full_name: "Nguyễn Văn A",
-  address: "123 Đường ABC, Quận 1, TP.HCM",
-  email: "nguyenvana@example.com",
-  phone: "0901234567",
-  status: "active"
-};
-localStorage.setItem('user', JSON.stringify(testUser))
 
 const cart = localStorage.getItem('cart') || ''
 const user = JSON.parse(localStorage.getItem('user')) || ''

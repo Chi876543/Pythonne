@@ -8,37 +8,6 @@ body {
   color: #333;
 }
 
-/* Header */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ff5722;
-  padding: 15px 30px;
-  color: #fff;
-}
-
-.header-left .logo {
-  width: 100px;
-}
-
-.header-right {
-  display: flex;
-}
-
-.header-right .icon {
-  text-decoration: none;
-  margin: 0 15px;
-  font-size: 16px;
-  color: #fff;
-  transition: color 0.3s ease;
-  font-size: 18px;
-}
-
-.header-right .icon:hover {
-  color: #ffd54f;
-}
-
 .container {
   max-width: 1200px;
   margin: 0 auto;
