@@ -1,0 +1,107 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            border-bottom: 2px solid #007bff;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+        }
+
+        .controls select, .controls input, .controls button {
+            margin-right: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .controls select {
+            min-width: 120px;
+        }
+
+        .controls input[type="month"], .controls input[type="text"] {
+            width: 150px;
+        }
+
+        canvas {
+            max-width: 100%;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('revenue')">Doanh thu</div>
+            <div class="tab" onclick="switchTab('inventory')">Tồn kho</div>
+            <div class="tab" onclick="switchTab('import-export')">Nhập/Xuất</div>
+        </div>
+
+        <div id="revenue" class="tab-content active">
+            <div class="controls">
+                <select id="timeUnit" onchange="updateRevenueInputs()">
+                    <option value="day">Theo ngày</option>
+                    <option value="month">Theo tháng</option>
+                    <option value="year">Theo năm</option>
+                </select>
+                <input type="date" id="startDate">
+                <input type="date" id="endDate">
+                <button onclick="generateRevenueChart()">Tạo</button>
+            </div>
+            <canvas id="revenueChart"></canvas>
+        </div>
+
+        <div id="inventory" class="tab-content">
+            <div class="controls">
+                <button onclick="generateInventoryChart()">Tạo</button>
+            </div>
+            <canvas id="inventoryChart"></canvas>
+        </div>
+
+        <div id="import-export" class="tab-content">
+            <div class="controls">
+                <select id="stockTimeUnit" onchange="updateStockInputs()">
+                    <option value="day">Theo ngày</option>
+                    <option value="month">Theo tháng</option>
+                </select>
+                <input type="date" id="stockStartDate">
+                <input type="date" id="stockEndDate">
+                <button onclick="generateStockChart()">Tạo</button>
+            </div>
+            <canvas id="importExportChart"></canvas>
+        </div>
+    </div>
+
+    <script src="{% static "js/manager.js" %}"></script>
+
+{% endblock %}
+
