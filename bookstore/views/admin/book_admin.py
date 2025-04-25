@@ -4,12 +4,6 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
-from django import forms
-
-class BookForm(forms.ModelForm):
-    class Meta:
-        model = Book
-        fields = ['title', 'author', 'price', 'stock', 'category', 'status', 'imagePath', 'description']
 
 def can_add_book(user):
     return user.has_perm('bookstore.can_add_book')
@@ -83,12 +77,22 @@ def change_book(request, book_id):
     # Lấy sách theo ID
     book = get_object_or_404(Book, id=book_id)
     categories = Category.objects.all()
+    
     if request.method == 'POST':
-        form = BookForm(request.POST, request.FILES, instance=book)
-        if form.is_valid():
-            form.save()
-            return redirect('list_book')
-    else:
-        form = BookForm(instance=book)
+        # Manually handle form data
+        book.title = request.POST.get('title')
+        book.author = request.POST.get('author')
+        book.price = request.POST.get('price')
+        book.stock = request.POST.get('stock')
+        book.status = request.POST.get('status')
+        book.category_id = request.POST.get('category')
+        book.description = request.POST.get('description')
 
-    return render(request, 'admin/book/change_book.html', {'form': form, 'book': book, 'categories': categories})
+        if 'imagePath' in request.FILES:
+            book.imagePath = request.FILES['imagePath'] 
+
+        book.save()
+        messages.success(request, 'Sách đã được cập nhật thành công!')
+        return redirect('list_book')
+    
+    return render(request, 'admin/book/change_book.html', {'book': book, 'categories': categories})

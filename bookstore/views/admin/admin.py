@@ -20,13 +20,11 @@ def admin_logout(request):
     return redirect('admin_login')
 
 def admin_login(request):
-    # Nếu đã đăng nhập và là admin → render dashboard
     if request.user.is_authenticated and is_admin(request.user):
         return render(request, 'admin/admin_base.html', {
             'user': request.user
         })
 
-    # Nếu chưa đăng nhập và gửi form
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')

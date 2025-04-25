@@ -29,7 +29,7 @@
         <td>{{ stock_out.book.title }}</td>
         <td>{{ stock_out.quantity }}</td>
         <td>{{ stock_out.total_price|floatformat:0 }}</td>
-        <td>{{ stock_out.order.created_at|date:"d/m/Y H:i" }}</td>
+        <td>{{ stock_out.date|date:"d/m/Y H:i" }}</td>
         <td>{{ stock_out.order.id }}</td>
         <td>{{ stock_out.note }}</td>
         {% comment %} <td><a href="{% url 'order_detail' order.id %}">Xem chi tiết</a></td> {% endcomment %}
