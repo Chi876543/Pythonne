@@ -16,7 +16,7 @@ def can_change_order(user):
 #     return user.has_perm('bookstore.can_view_orderdetail')
 
 @login_required
-@user_passes_test(can_view_order)
+#@user_passes_test(can_view_order)
 def admin_list_orders(request):
     orders = Order.objects.all()  
     users = User.objects.all()  # Lấy tất cả người dùng
@@ -48,7 +48,7 @@ def admin_list_orders(request):
 
 
 @login_required
-@user_passes_test(can_change_order)
+# @user_passes_test(can_change_order)
 def update_order_status(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     current_status = order.status
@@ -92,6 +92,7 @@ def update_order_status(request, order_id):
         return redirect('list_order')
 
     return render(request, 'staff/order/order_list.html')
+
 @login_required
 def admin_order_detail(request, order_id):
     order_detail = OrderDetail.objects.filter(order_id=order_id)

@@ -49,7 +49,7 @@
         </div>
         <div class="form-group">
             <label for="group">Nhóm:</label>
-            <select id="group" name="group" multiple required style="height: 200px; width: 100%;">
+            <select id="group" name="group" multiple style="height: 200px; width: 100%;">
                 {% for group in groups %}
                     <option value="{{ group.id }}" {% if group.id in user_group_ids %}selected{% endif %}>{{ group.name }}</option>
                 {% endfor %}

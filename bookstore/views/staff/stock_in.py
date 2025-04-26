@@ -11,7 +11,7 @@ def can_add_stockin(user):
     return user.has_perm('bookstore.can_add_stockin')
 
 @login_required
-@user_passes_test(can_view_stockin)
+# @user_passes_test(can_view_stockin)
 def admin_stock_in(request):
     book_filter = request.GET.get('book_name', '')
     start_date_filter = request.GET.get('start_date', '')
@@ -40,7 +40,7 @@ def admin_stock_in(request):
     })
 
 @login_required
-@user_passes_test(can_add_stockin)
+# @user_passes_test(can_add_stockin)
 def add_stockin(request):
     if request.method == 'POST':
         book_id = request.POST.get('book')

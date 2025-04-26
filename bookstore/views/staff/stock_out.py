@@ -6,7 +6,7 @@ def can_view_stockout(user):
     return user.has_perm('bookstore.can_view_stockout')
 
 @login_required
-@user_passes_test(can_view_stockout)
+# @user_passes_test(can_view_stockout)
 def admin_stock_out(request):
     stock_outs = StockOut.objects.all()
     order_id_filter = request.GET.get('order_id', '')
