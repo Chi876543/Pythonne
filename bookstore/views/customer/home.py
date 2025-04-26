@@ -138,6 +138,7 @@ def logout(request):
         'success': False,
         'message': 'Phương thức không được phép'
     }, status=405)
+
 @csrf_exempt
 def register(request):
     if request.method == 'POST':

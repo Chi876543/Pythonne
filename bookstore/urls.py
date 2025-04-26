@@ -71,13 +71,10 @@ urlpatterns = [
     path('admin/report', report.home, name = 'report'),
     path('api/revenue/', report.revenue_api, name='revenue_api'),
     path('api/inventory/', report.inventory_api, name='inventory_api'),
-    path('api/stock/', report.stock_api, name='stock_api'),
 
     path('api/create_order/', profile.create_order, name = 'create-order'),
     path('api/view_order/', profile.view_order, name= 'view-order'),
     path('api/search_order/', profile.search_order, name= 'search-order'),
     path('api/get_book/', profile.get_book, name = 'get-books'),
-
-
 
 ]

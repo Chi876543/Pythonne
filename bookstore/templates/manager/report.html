@@ -63,7 +63,6 @@
         <div class="tabs">
             <div class="tab active" onclick="switchTab('revenue')">Doanh thu</div>
             <div class="tab" onclick="switchTab('inventory')">Tồn kho</div>
-            <div class="tab" onclick="switchTab('import-export')">Nhập/Xuất</div>
         </div>
 
         <div id="revenue" class="tab-content active">
@@ -87,18 +86,6 @@
             <canvas id="inventoryChart"></canvas>
         </div>
 
-        <div id="import-export" class="tab-content">
-            <div class="controls">
-                <select id="stockTimeUnit" onchange="updateStockInputs()">
-                    <option value="day">Theo ngày</option>
-                    <option value="month">Theo tháng</option>
-                </select>
-                <input type="date" id="stockStartDate">
-                <input type="date" id="stockEndDate">
-                <button onclick="generateStockChart()">Tạo</button>
-            </div>
-            <canvas id="importExportChart"></canvas>
-        </div>
     </div>
 
     <script src="{% static "js/manager.js" %}"></script>

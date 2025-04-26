@@ -44,7 +44,7 @@ def admin_stock_in(request):
 def add_stockin(request):
     if request.method == 'POST':
         book_id = request.POST.get('book')
-        quantity = request.POST.get('quantity')
+        quantity = int(request.POST.get('quantity'))
         date = request.POST.get('date')
         note = request.POST.get('note')
         price = request.POST.get('price')
@@ -56,6 +56,10 @@ def add_stockin(request):
             price =price,
         )
         stockin.save()
+
+        book = Book.objects.get(id=book_id)
+        book.stock += quantity
+        book.save()
 
         messages.success(request, 'Phiếu nhập đã được thêm thành công!')
         return redirect('list_stock_in') 
