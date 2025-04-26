@@ -15,7 +15,7 @@ def can_change_book(user):
     return user.has_perm('bookstore.can_change_book')
 
 @login_required
-@user_passes_test(can_view_books)
+# @user_passes_test(can_view_books)
 def admin_list_books(request):
     category_filter = request.GET.get('category_name', '')
     search_filter = request.GET.get('search_book', '')
@@ -38,7 +38,7 @@ def admin_list_books(request):
     return render(request, 'admin/book/list_book.html', context)
 
 @login_required
-@user_passes_test(can_add_book)
+# @user_passes_test(can_add_book)
 def add_book(request):
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -72,7 +72,7 @@ def add_book(request):
     return render(request, 'admin/book/add_book.html', {'categories': categories})
 
 @login_required
-@user_passes_test(can_change_book)
+# @user_passes_test(can_change_book)
 def change_book(request, book_id):
     # Lấy sách theo ID
     book = get_object_or_404(Book, id=book_id)

@@ -16,13 +16,13 @@ def can_change_group(user):
     return user.has_perm('bookstore.can_change_group')
 
 @login_required
-@user_passes_test(can_view_group)
+# @user_passes_test(can_view_group)
 def admin_list_group(request):
     groups = Group.objects.all()
     return render(request, 'admin/group_permission/list_group.html', {'groups': groups})
 
 @login_required
-@user_passes_test(can_add_group)
+# @user_passes_test(can_add_group)
 def add_group(request):
     if request.method == 'POST':
         group_name = request.POST.get('group_name')
@@ -45,9 +45,7 @@ def add_group(request):
     return render(request, 'admin/group_permission/add_group.html', context)
 
 @login_required
-@user_passes_test(can_change_group)
-@login_required
-@user_passes_test(can_change_group)
+# @user_passes_test(can_change_group)
 def change_group(request, group_id):
     group = get_object_or_404(Group, id=group_id)  # Get the group by ID
 
@@ -79,7 +77,7 @@ def change_group(request, group_id):
     return render(request, 'admin/group_permission/change_group.html', context)
 
 @login_required
-@user_passes_test(can_delete_group)
+# @user_passes_test(can_delete_group)
 def delete_group(request, group_id):
     group = get_object_or_404(Group, id=group_id)  # Get the group by ID
 

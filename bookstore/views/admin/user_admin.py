@@ -60,6 +60,7 @@ def add_user(request):
         user.phone = phone
         user.full_name = full_name 
         user.role = role
+        user.is_active = True
         user.address = address
         user.status = status
         user.is_staff = is_staff 
@@ -101,6 +102,10 @@ def change_user(request, user_id):
         user.phone = phone
         user.address = address
         user.role = role
+        if status == 'Active':
+            user.is_active = True
+        if status == 'Inactive':
+            user.is_active = False
         user.status = status
         user.is_staff = is_staff
         user.is_superuser = is_superuser

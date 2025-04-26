@@ -13,7 +13,7 @@ def can_change_category(user):
     return user.has_perm('bookstore.can_change_category')
 
 @login_required
-@user_passes_test(can_view_category)
+# @user_passes_test(can_view_category)
 def admin_list_category(request):
     categories = Category.objects.all()
 
@@ -28,7 +28,7 @@ def admin_list_category(request):
     return render(request, 'admin/category/list_category.html',context)
 
 @login_required
-@user_passes_test(can_add_category)
+# @user_passes_test(can_add_category)
 def add_category(request):
     if request.method == 'POST':
         category_name = request.POST.get('category_name')
@@ -44,7 +44,7 @@ def add_category(request):
     return render(request, 'admin/category/add_category.html')
 
 @login_required
-@user_passes_test(can_change_category)
+# @user_passes_test(can_change_category)
 def change_category(request, category_id):
     category = Category.objects.get(id=category_id) 
 
